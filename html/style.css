@@ -33,3 +33,20 @@
 .background {
     background-color: rgb(216, 206, 206);
 }
+/* Style the list */
+ul.breadcrumb {
+  padding: 5px 10px;
+  list-style: none;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  content: "/\00a0";
+}
