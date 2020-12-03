@@ -1,0 +1,52 @@
+.main {
+    border: 0.3px solid gray;
+    margin: 70px;
+    box-shadow: 5px 10px 18px gray;
+}
+
+.flex-container {
+    border: 0.5px solid gray;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.flex-item {
+    margin: 5px;
+    text-align: left;
+    line-height: 40px;
+    font-size: 20px;
+}
+
+.grow1 {
+    flex-grow: 4;
+}
+
+.grow2 {
+    flex-grow: 8;
+}
+
+.close {
+    padding: 25px;
+}
+
+.background {
+    background-color: rgb(216, 206, 206);
+}
+/* Style the list */
+ul.breadcrumb {
+  padding: 5px 10px;
+  list-style: none;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  content: "/\00a0";
+}
