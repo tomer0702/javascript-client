@@ -162,14 +162,15 @@ div.amt {
 #acc {
     margin-left: 25%;
     width: 45%;
-
+    border-radius: 5px;
     padding: 2%;
    
 }
 
 #exp {
     margin-left: 25%;
-    width: 20%;
+    border-radius: 5px;
+      width: 20%;
     padding: 1%;
     
 }
@@ -178,6 +179,7 @@ div.amt {
     
     width: 20%;
     padding: 1%;
+    border-radius: 5px;
     margin-left: 4%;
 }
 
