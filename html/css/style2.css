@@ -102,8 +102,7 @@ ul.breadcrumb li+li:before {
 
 .n_card {
     color: gray;
-    padding-top: 2%;
-    flex: 2;
+    
 }
 
 .wallet {
