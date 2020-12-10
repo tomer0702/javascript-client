@@ -102,8 +102,7 @@ ul.breadcrumb li+li:before {
 
 .n_card {
     color: gray;
-    padding-top: 2%;
-    flex: 2;
+    
 }
 
 .wallet {
@@ -163,9 +162,11 @@ div.amt {
 
 #name,
 #acc {
+
     margin-left: 20%;
     width: 61%;
     padding: 3%;
+
    
 }
 
@@ -173,14 +174,17 @@ div.amt {
     margin-left: 20%;
     width: 29%;
     padding: 3%;
+
     
 }
 
 #cvv {
     
+
     width: 29%;
     padding: 3%;
     margin-left: 2%;
+
 }
 
 .button {
