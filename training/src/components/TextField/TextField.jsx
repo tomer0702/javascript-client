@@ -9,19 +9,20 @@ const TextField = (props) => {
   if (error) {
     return (
       <>
-        <Input type="text" value={value} error />
+      <h6 hidden > learn react </h6>
+        <Input type="text" defaultValue={value} error />
         <Error>{error}</Error>
       </>
     );
   }
   return (
-    <Input type="text" value={value} disabled={disabled} />
+    <Input type="text" defaultValue={value} disabled={disabled} />
   );
 };
 export default TextField;
 TextField.propTypes = {
   value: PropTypes.string,
-  disabled: PropTypes.string,
+  disabled: PropTypes.bool,
   error: PropTypes.string,
 };
 TextField.defaultProps = {
