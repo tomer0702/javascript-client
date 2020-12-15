@@ -9,7 +9,7 @@ const TextField = (props) => {
   if (error) {
     return (
       <>
-      <h6 hidden > learn react </h6>
+        <h6 hidden> learn react </h6>
         <Input type="text" defaultValue={value} error />
         <Error>{error}</Error>
       </>
