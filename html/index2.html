@@ -1,140 +1,133 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href='css/style2.css'>
     <link rel='stylesheet' href='http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-
 </head>
 
 <body>
-    <div class='container'>
-        <div class='block1'>
-            <div class='checkout '><b>Checkout</b></div>
-            <div class="checkout1 ">
-                <ul class="breadcrumb">
+    <div class="co_container">
+        <div class="co_block1--container1">
+            <div class="co_item--checkout"><b>Checkout</b></div>
+            <div class="co_checkout1">
+                <ul class="co_breadcrumb">
                     <li>Shipping</li>
                     <li><b>Payment Method</b></li>
                     <li>Confirmation</li>
                 </ul>
             </div>
-            <div class=" fa fa-window-close icon"></div>
+            <div><i class=" fa fa-window-close icon"></i></div>
         </div>
-        <div class='block2'>
-            <div class='paymentblock'>
-                <div class="wallet">
-                   <b>Wallet</b>
+        <div class="co_block2--container2">
+            <div class='co_flex--paymentblock'>
+                <div class="co_wallet">
+                    Wallet
                     <hr>
                     <div class="image">
-                        <div class="co_image">
-                            <img src="./images/cards/discover.png" class="co_img" title="Discover Card"/> Ending with 8899
-                        </div>
-                        <div class="co_image">
-                            <img src="./images/cards/mastercard.png" class="co_img" title="Master Card" /> Ending with 8899
-                        </div>
-                        <div class="co_image">
-                            <img src="./images/cards/visa.png" class="co_img" title="Visa Card" /> Ending with 8899
-                        </div>
+                        <img class="co_image" src="./images/cards/discover.png" title="Discover Card" />
+                        <img class="co_image" src="./images/cards/mastercard.png" title="Master Card" />
+                        <img class="co_image" src="./images/cards/visa.png" title="Visa Card" />
                     </div>
-                </div>
-                <div class='n_card'>
-                <b>New Card</b>
-                <hr>
-                    <br><br>
-                    <form>
+                </div><br><br>
+                <div>New Card
+                    <hr>
+                    <form class="co_nCard">
                         <input type="text" id="name" placeholder="Name on Card"><br></br>
-                        <input type="text" id="acc" placeholder="xxxx-xxxx-xxxx-xxxx"><br></br>
+                        <input type="number" id="acc" placeholder="XXXX-XXXX-XXXX-XXXX"><br></br>
                         <input type="text" id="exp" placeholder="MM-YY">
-                        <input type="text" id="cvv" placeholder="CVV"><br></br>
-                        <button class="button">CONTINUE</button>
+                        <input type="number" id="cvv" placeholder="CVV"><br> </br>
+                        <button type="button" id="button">CONTINUE</button>
                     </form>
-                    <br><br><br>
                 </div>
             </div>
-            
-        <div class='cartblock'>
-            <div class="first">
-                <div class="item">
-                    <div class="co_item">
-                        <img class='item_image' src="./images/products/mobile-holder.jpg">
-                    </div>
-                <div class="amt">
-                    <div>
-                        <b> Mobile Holder</b><br></div>
-                    <div class="buy"> <i>Black</i>
-                        <br> <b>Quantity:1</b>
-                    </div>
-                </div>
-                <div class="price"><t> </t><b>$10.00</b></div>
-                </div>
-                <hr>
-                <div class="item">
-                    <div class="co_item">
-                        <img class="item_image" src="./images/products/rado.jpg">
-                    </div>
-                <div class="amt">
-                    <div>
-                    <b>Rado Watch</b><br>
-                    </div>
-                    <div class="buy"><i>Black</i>
-                    <br><b>Quantity:1</b>
-                    </div>
-                </div>
-                <div class="price"><b>$10.00</b></div>
-                </div>
-                <hr>
-                <div class="item">  
-                    <div class="co_item">
-                        <img class='item_image' src="./images/products/usb-c-2-micro.jpeg" >
-                    </div>
-                <div class="amt">
-                <div>
-                    <b>C-Type to micro Convertor</b><br><br></div>
-                    <div class="buy"> <i>Black</i>
-                    <br> <b>Quantity:1</b>
-                    </div>
-                </div>
-                <div class="price"><b>$ 10.00</b></div>
-                </div>
-                <hr>
-                <div class="item">
-                    <div class="co_item">
-                        <img class="item_image" src="images/products/hard-case.jpg">
-                    </div>
-                <div class="amt">
-                <div>
-                    <b>Mobile Case</b>
-                </div>
-                    <div class="buy"><i>Black</i>
-                    <br><b> Quantity:1</b>
-                    </div>
-                </div>
-                <div class="price"><b>$10.00</b></div>
-                </div>
-                <br><br>
-                <div class='second'>
-                    <hr>
-                    <div class="summary">
-                        <div>
-                            Sub Total <br><br> Shipping<br><br> Taxes<br>
+            <div class='co_cartblock'>
+                <div class="co_first">
+                    <div class="item">
+                        <div class="co_product">
+                            <img class='item_image' src="./images/products/mobile-holder.jpg">
+                        </div>
+                        <div class="amt">
+                            <div>
+                                <b> Mobile Holder</b><br></div>
+                            <div class="buy"> <i>Black</i>
+                                <br> <b>Quantity:1</b>
+                            </div>
                         </div>
                         <div class="price">
-                            $ 100.00 <br><br> $ 10.00<br> <br> $ 5.00
+                            <t> </t><b>$10.00</b>
                         </div>
                     </div>
                     <hr>
-                    <div class="summary">
-                        <div>
-                            <b>Total</b></div>
-                        <div class="price">
-                            <b> $ 115.00 </b>
+                    <div class="item">
+                        <div class="co_product">
+                            <img class="item_image" src="./images/products/rado.jpg">
+                        </div>
+                        <div class="amt">
+                            <div>
+                                <b>Rado Watch</b><br>
+                            </div>
+                            <div class="buy"><i>Black</i>
+                                <br><b>Quantity:1</b>
+                            </div>
+                        </div>
+                        <div class="price"><b>$10.00</b></div>
+                    </div>
+                    <hr>
+                    <div class="item">
+                        <div class="co_product">
+                            <img class='item_image' src="./images/products/usb-c-2-micro.jpeg">
+                        </div>
+                        <div class="amt">
+                            <div>
+                                <b>C-Type to micro Convertor</b><br><br></div>
+                            <div class="buy"> <i>Black</i>
+                                <br> <b>Quantity:1</b>
+                            </div>
+                        </div>
+                        <div class="price"><b>$10.00</b></div>
+                    </div>
+                    <hr>
+                    <div class="item">
+                        <div class="co_product">
+                            <img class="item_image" src="images/products/hard-case.jpg">
+                        </div>
+                        <div class="amt">
+                            <div>
+                                <b>Mobile Case</b>
+                            </div>
+                            <div class="buy"><i>Black</i>
+                                <br><b> Quantity:1</b>
+                            </div>
+                        </div>
+                        <div class="price"><b>$10.00</b></div>
+                    </div><br><br><br>
+                    <div class='second'>
+                        <hr>
+                        <div class="item">
+                            <div class="summary">Sub Total</div>
+                            <div class="price">$100.00</div>
+                        </div><br>
+                        <div class="item">
+                            <div class="summary">Shipping</div>
+                            <div class="price">$10.00</div>
+                        </div><br>
+                        <div class="item">
+                            <div class="summary">Taxes</div>
+                            <div class="price">$5.00</div>
+                        </div>
+                        <hr>
+                        <div class="item">
+                            <div class="summary"><b>Total</b></div>
+                            <div class="price"><b>$115.00</b></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-    </div>
     </div>
 </body>
 
