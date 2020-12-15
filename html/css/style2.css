@@ -73,7 +73,7 @@ ul.co-breadcrumb li {
 	width: 40%;
 	background-color: rgba(169, 169, 169, 0.74);
 	flex-grow: 1;
-    position: relative;
+    position:relative;
 }
 
 .icon {
@@ -82,7 +82,7 @@ ul.co-breadcrumb li {
 
 .image {
 	margin-left: 1%;
-    margin-right: -5%;
+    margin-right: -2%;
     margin-top: 5%;
 }
 
