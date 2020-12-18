@@ -22,7 +22,7 @@ class InputDemo extends React.Component {
 
     handleSportChange = (e) => {
       // eslint-disable-next-line
-      this.setState({ sport: e.target.value }, () => console.log(this.state));
+      this.setState({ sport: e.target.value }, () => { console.log(this.state); });
       if (e.target.value === 'Select') {
         this.setState({ sport: '' });
       }
@@ -47,12 +47,12 @@ class InputDemo extends React.Component {
       };
 
       render() {
-        const { sport } = this.state;
+        const { sport, name } = this.state;
         return (
           <>
             <div>
               <p><b>Name:</b></p>
-              <TextField error="" onChange={this.handleNameChange} />
+              <TextField error="" value={name} onChange={this.handleNameChange} />
               <p><b>Select the game you play?</b></p>
               <SelectField
                 error=""
