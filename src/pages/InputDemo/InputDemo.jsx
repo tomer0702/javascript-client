@@ -15,11 +15,13 @@ class InputDemo extends React.Component {
 
     handleNameChange = (e) => {
       this.setState({ name: e.target.value }, () => {
+        // eslint-disable-next-line
         console.log(this.state);
       });
     }
 
     handleSportChange = (e) => {
+      // eslint-disable-next-line
       this.setState({ sport: e.target.value }, () => console.log(this.state));
       if (e.target.value === 'Select') {
         this.setState({ sport: '' });
@@ -29,6 +31,7 @@ class InputDemo extends React.Component {
 
     handlePositionChange = (e) => {
       const { sport } = this.state;
+      // eslint-disable-next-line
       return sport === 'cricket' ? this.setState({ cricket: e.target.value }, () => console.log(this.state)) : this.setState({ football: e.target.value }, () => console.log(this.state));
     }
 
