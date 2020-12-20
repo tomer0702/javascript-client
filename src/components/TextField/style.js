@@ -1,19 +1,16 @@
 import styled, { css } from 'styled-components';
 
 const Div = styled.div`
+2%;
 margin: 2%;
 `;
 const Error = styled.p`
 color: red;
-`;
-const Input = styled.input`
-width: 100%;
-padding: 0.7%;
-border: 1px solid gray;
-border-radius: 5px;
+@@ -14,7 +14,7 @@ border-radius: 5px;
 color: solid gray;
 ${(props) => props.error
 && css`
+border: 1px solid red;
 border: 1px solid black;
 color: red;
 `};
