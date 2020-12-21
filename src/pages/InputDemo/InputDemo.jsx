@@ -1,6 +1,9 @@
 import React from 'react';
 import { TextField, SelectField, RadioField } from '../../components';
 import { selectOptions, radioOptionsCricket, radioOptionsFootball } from '../../config/constants';
+import {
+  Error,
+} from './style';
 
 class InputDemo extends React.Component {
   constructor(props) {
@@ -47,7 +50,9 @@ class InputDemo extends React.Component {
       };
 
       render() {
-        const { sport, name } = this.state;
+        const {
+          sport, name, cricket, football,
+        } = this.state;
         return (
           <>
             <div>
@@ -67,10 +72,20 @@ class InputDemo extends React.Component {
                       <>
                         <p><b>What you do?</b></p>
                         <RadioField
-                          error=""
                           options={this.RadioOption()}
                           onChange={this.handlePositionChange}
                         />
+                        {
+                          (cricket === '' && football === '') ? (
+                            <div>
+                              <br />
+                              <br />
+                              <Error>What you do is Required  Field</Error>
+                            </div>
+                          )
+                            // eslint-disable-next-line no-console
+                            : console.log('After name', name)
+                        }
                       </>
                     )
                 }

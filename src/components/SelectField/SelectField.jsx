@@ -6,11 +6,11 @@ import { Select } from './style';
 
 function SelectField(props) {
   const {
-    error, onChange, options, defaultText,
+    onChange, options, defaultText,
   } = props;
   return (
     <>
-      <Select onChange={onChange} error={error}>
+      <Select onChange={onChange}>
         { defaultText && <option>{defaultText}</option>}
         {
           options && options.length
@@ -22,13 +22,11 @@ function SelectField(props) {
 }
 export default SelectField;
 SelectField.propTypes = {
-  error: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.object),
   defaultText: PropTypes.string,
 };
 SelectField.defaultProps = {
-  error: '',
   options: [],
   defaultText: 'Select',
 };
