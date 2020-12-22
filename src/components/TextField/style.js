@@ -7,7 +7,7 @@ const Error = styled.p`
 color: red;
 `;
 const Input = styled.input`
-width: 100%;
+width: 98%;
 padding: 0.7%;
 border: 1px solid gray;
 border-radius: 5px;
