@@ -3,9 +3,6 @@ import styled, { css } from 'styled-components';
 const Div = styled.div`
 margin: 2%;
 `;
-const Error = styled.p`
-color: red;
-`;
 const Input = styled.input`
 width: 100%;
 padding: 0.7%;
@@ -25,4 +22,4 @@ color: black;
 `};
 }
 `;
-export { Div, Error, Input };
+export { Div, Input };

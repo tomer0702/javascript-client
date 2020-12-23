@@ -9,7 +9,4 @@ ${(props) => props.error
   `};
 `;
 
-const Err = styled.p`
-color: red;
-`;
-export { Select, Err };
+export { Select };
