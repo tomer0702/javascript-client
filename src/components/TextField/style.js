@@ -1,10 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const Div = styled.div`
-2%;
-`;
-const Error = styled.p`
-color: red;
+margin: 2%;
 `;
 const Input = styled.input`
 width: 98%;
@@ -14,8 +11,7 @@ border-radius: 5px;
 color: solid gray;
 ${(props) => props.error
 && css`
-border: 1px solid red;
-color: red;
+border: 1px solid black;
 `};
 }
 ${(props) => (props.value && !props.disabled && !props.error)
@@ -25,4 +21,4 @@ color: black;
 `};
 }
 `;
-export { Div, Error, Input };
+export { Div, Input };
