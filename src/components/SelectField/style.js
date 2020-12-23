@@ -8,5 +8,4 @@ ${(props) => props.error
   border: 1px solid black;
   `};
 `;
-
 export { Select };
