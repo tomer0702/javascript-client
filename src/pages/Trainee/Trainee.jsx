@@ -24,6 +24,7 @@ export default class Trainee extends React.Component {
     this.setState({
       open: false,
     }, () => {
+      // eslint-disable-next-line
       console.log(data);
     });
   }
