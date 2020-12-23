@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Select, Err } from './style';
+import { Select } from './style';
+import { Err } from '../style';
 
 function SelectField(props) {
   const {
