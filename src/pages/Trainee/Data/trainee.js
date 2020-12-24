@@ -1,5 +1,11 @@
 const trainees = [
   {
+    id: '5c6567af7740654f0915fac9',
+    name: 'M.S. Dhoni',
+    email: 'msdhoni@gmail.com',
+    createdAt: '2019-02-13T18:15:11.778Z',
+  },
+  {
     id: '5c6c47af7740654f0915fac9',
     name: 'Sachin Tendulkar',
     email: 'sachin@gmail.com',
@@ -10,12 +16,6 @@ const trainees = [
     name: 'Virat Kohli',
     email: 'virat@gmail.com',
     createdAt: '2019-02-12T18:15:11.778Z',
-  },
-  {
-    id: '5c6567af7740654f0915fac9',
-    name: 'M.S. Dhoni',
-    email: 'msdhoni@gmail.com',
-    createdAt: '2019-02-13T18:15:11.778Z',
   },
   {
     id: '5c6c47af7747854f0915fac9',
