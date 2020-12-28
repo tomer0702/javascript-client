@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Error, Input } from './style';
+import { Input } from './style';
+import { Err } from '../style';
 
 const TextField = (props) => {
   const {
@@ -10,7 +11,7 @@ const TextField = (props) => {
     return (
       <>
         <Input type="text" value={value} error onChange={onChange} onBlur={onBlur} />
-        <Error>{error}</Error>
+        <Err>{error}</Err>
       </>
     );
   }
