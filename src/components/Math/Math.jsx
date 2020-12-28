@@ -1,4 +1,3 @@
-/* eslint-disable no-eval */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,7 +6,17 @@ const getResult = (first, second, operator) => {
   if (!(operator === '+' || operator === '-' || operator === '*' || operator === '/')) {
     result = 'invalid operator';
   } else {
-    result = eval(`${first} ${operator} ${second}`);
+    switch (operator) {
+    case '+': result = first + second;
+      break;
+    case '-': result = first - second;
+      break;
+    case '*': result = first * second;
+      break;
+    case '/': result = first / second;
+      break;
+    default: return ('invalid operator');
+    }
   }
   return result;
 };
