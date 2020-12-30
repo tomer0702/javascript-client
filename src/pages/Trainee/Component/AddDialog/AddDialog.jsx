@@ -29,10 +29,10 @@ class AddDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Name: '',
-      Email: '',
-      Password: '',
-      ConfirmPassword: '',
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       touched: {
         name: false,
         email: false,

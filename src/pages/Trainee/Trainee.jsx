@@ -34,7 +34,7 @@ export default class Trainee extends React.Component {
     return (
       <>
         <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>ADD TRAINEE</Button>
-        <AddDialog open={open} onClose={this.handleClose} onSubmit={() => this.handleSubmit} />
+        <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} />
       </>
     );
   }
