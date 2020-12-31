@@ -6,6 +6,7 @@ import { Slider } from '../../components/Slider';
 
 import { banners } from '../../config/constants';
 
+// eslint-disable-next-line import/named
 import { Div } from '../../components/TextField/style';
 
 const TextFieldDemo = () => (

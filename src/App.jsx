@@ -1,12 +1,12 @@
 // import { render } from '@testing-library/react';
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
-import { ChildrenDemo } from './pages/ChildrenDemo';
+import { Trainee } from './pages/Trainee';
 import Theme from './theme';
 
 const App = () => (
   <ThemeProvider theme={Theme}>
-    <ChildrenDemo />
+    <Trainee />
   </ThemeProvider>
 );
 
