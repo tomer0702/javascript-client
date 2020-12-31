@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Button, Dialog, DialogContentText, DialogContent, DialogTitle,
 } from '@material-ui/core';
-import { Email, Person, VisibilityOff } from '@material-ui/icons';
+import { Person, Email, VisibilityOff } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import schema from './Schema';
 import Handler from './Handler';
@@ -18,12 +18,11 @@ const passwordStyle = () => ({
   },
 });
 
-const constant = {
-  Name: Person,
-  'Email Id': Email,
-  Password: VisibilityOff,
-  'Confirm Password': VisibilityOff,
-};
+const constant = [
+  { key: 'name', label: 'Name', icons: Person },
+  { key: 'email', label: 'Email Id', icons: Email },
+  { key: 'password', label: 'Password', icons: VisibilityOff },
+  { key: 'confirmPassword', label: 'Confirm Password', icons: VisibilityOff }];
 
 class AddDialog extends React.Component {
   constructor(props) {
@@ -79,7 +78,7 @@ class AddDialog extends React.Component {
   }
 
   passwordType = (key) => {
-    if (key === 'Password' || key === 'Confirm Password') {
+    if (key === 'password' || key === 'confirmPassword') {
       return 'password';
     }
     return '';
@@ -92,15 +91,16 @@ class AddDialog extends React.Component {
 
     const { name, email, password } = this.state;
     const ans = [];
-    Object.keys(constant).forEach((key) => {
+    constant.forEach((item) => {
+      // console.log('asdf', item.key, Handler);
       ans.push(<Handler
-        label={key}
-        onChange={this.handleChange(key)}
-        onBlur={() => this.isTouched(key)}
-        helperText={this.getError(key)}
-        error={!!this.getError(key)}
-        icons={constant[key]}
-        type={this.passwordType(key)}
+        label={item.label}
+        onChange={this.handleChange(item.key)}
+        onBlur={() => this.isTouched(item.key)}
+        helperText={this.getError(item.key)}
+        error={!!this.getError(item.key)}
+        icons={item.icons}
+        type={this.passwordType(item.key)}
       />);
     });
     return (
