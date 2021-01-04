@@ -47,5 +47,6 @@ const radioOptionsFootball = [
     value: 'defender',
   },
 ];
-
-export { radioOptionsCricket, radioOptionsFootball, selectOptions };
+export {
+  radioOptionsCricket, radioOptionsFootball, selectOptions,
+};
