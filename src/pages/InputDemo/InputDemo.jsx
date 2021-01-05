@@ -31,13 +31,13 @@ class InputDemo extends React.Component {
 
     handleNameChange = (e) => {
       this.setState({ name: e.target.value }, () => {
-        // eslint-disable-next-line no-console
+        // eslint-disable-next-line
         console.log(this.state);
       });
     }
 
     handleSportChange = (e) => {
-      // eslint-disable-next-line no-console
+      // eslint-disable-next-line
       this.setState({ sport: e.target.value }, () => console.log(this.state));
       if (e.target.value === 'Select') {
         this.setState({ sport: '' });

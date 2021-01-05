@@ -6,5 +6,4 @@ ${(props) => props.error
   && css`Cancel￼Submit
   border: 1px solid red;
   `};`;
-
 export { Input };
