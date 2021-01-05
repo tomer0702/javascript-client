@@ -47,7 +47,7 @@ class InputDemo extends React.Component {
 
     handlePositionChange = (e) => {
       const { sport } = this.state;
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       return sport === 'cricket' ? this.setState({ cricket: e.target.value }, () => console.log(this.state)) : this.setState({ football: e.target.value }, () => console.log(this.state));
     }
 
