@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   TextField, Typography, CardContent, InputAdornment, Button, Avatar, Card, CssBaseline, withStyles,
 } from '@material-ui/core';
-import { schema } from '../../config/constants';
+import { schema } from '../../config/constants'
 import { LockOutlined } from '@material-ui/icons';
 import { Email, VisibilityOff } from '@material-ui/icons';
 
