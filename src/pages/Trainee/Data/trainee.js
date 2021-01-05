@@ -1,3 +1,8 @@
+import moment from 'moment';
+
+// eslint-disable-next-line no-unused-vars
+const getDateFormatted = (date) => moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a');
+
 const trainees = [
   {
     id: '5c6567af7740654f0915fac9',
