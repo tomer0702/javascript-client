@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  AppBar, Toolbar, Typography, CssBaseline, Button, withStyles,
+  AppBar, Toolbar, Typography, Button, withStyles,
 } from '@material-ui/core';
 
 const style = () => ({
@@ -17,7 +17,6 @@ function NavBar(props) {
   const { classes } = props;
   return (
     <>
-      <CssBaseline />
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>

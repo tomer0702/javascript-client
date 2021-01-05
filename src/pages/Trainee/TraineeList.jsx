@@ -46,16 +46,19 @@ class TraineeList extends React.Component {
     this.setState({
       open: false,
     }, () => {
+      // eslint-disable-next-line
       console.log(data);
     });
   }
 
   handleSelect = (event) => {
+    // eslint-disable-next-line
     console.log(event);
   };
 
   handleSort = (field) => (event) => {
     const { order } = this.state;
+    // eslint-disable-next-line
     console.log(event);
     this.setState({
       orderBy: field,
