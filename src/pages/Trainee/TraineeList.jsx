@@ -6,7 +6,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
-import trainees from './Data/trainee';
+import { trainees } from './Data/trainee';
 
 const useStyles = (theme) => ({
   root: {
@@ -47,6 +47,7 @@ class TraineeList extends React.Component {
     this.setState({
       open: false,
     }, () => {
+      // eslint-disable-next-line
       console.log(data);
     });
     const message = 'This is Success Message';
@@ -55,11 +56,13 @@ class TraineeList extends React.Component {
   }
 
   handleSelect = (event) => {
+    // eslint-disable-next-line
     console.log(event);
   };
 
   handleSort = (field) => (event) => {
     const { order } = this.state;
+    // eslint-disable-next-line
     console.log(event);
     this.setState({
       orderBy: field,

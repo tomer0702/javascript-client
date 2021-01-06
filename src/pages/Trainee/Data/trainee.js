@@ -1,6 +1,5 @@
 import moment from 'moment';
 
-// eslint-disable-next-line no-unused-vars
 const getDateFormatted = (date) => moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a');
 
 const trainees = [
@@ -35,4 +34,4 @@ const trainees = [
     createdAt: '2019-02-15T18:15:11.778Z',
   },
 ];
-export default trainees;
+export { trainees, getDateFormatted };
