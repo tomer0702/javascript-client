@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import trainees from './Data/trainee';
 import NotFound from '../NoMatch';
-import { getDateFormatted } from '../../libs/utils/dateformat';
+import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const style = (theme) => ({
   root: {
