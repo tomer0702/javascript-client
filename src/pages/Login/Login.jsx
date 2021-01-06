@@ -143,4 +143,3 @@ Login.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 export default withStyles(Design)(Login);
-
