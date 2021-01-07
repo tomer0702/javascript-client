@@ -8,13 +8,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(matchProps) => (
-      localStorage.getItem('token')
+    localStorage.getItem('token')
         ? (
           <PrivateLayout>
             <Component {...matchProps} />
           </PrivateLayout>
         ) : (
-          <Redirect to="/login/" />
+          <Redirect to="/login" />
         )
     )}
   />
