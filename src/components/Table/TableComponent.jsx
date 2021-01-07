@@ -24,18 +24,20 @@ function TableComponent(props) {
           <TableRow>
             {
               column.map(({ align, label }) => (
-                <TableCell className={classes.header} align={align}>{label}</TableCell>
+                <TableCell key={label} className={classes.header} align={align}>{label}</TableCell>
               ))
             }
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(({ name, email }) => (
-            <TableRow>
-              <TableCell align={column[0].align}>
+          {data.map(({ name, email, id }) => (
+            <TableRow key={`${id}+${email}`}>
+              <TableCell key={id} align={column[0].align}>
                 {name}
               </TableCell>
-              <TableCell>{email}</TableCell>
+              <TableCell align={column[0].email}>
+                {email}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
