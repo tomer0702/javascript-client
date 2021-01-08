@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -30,14 +31,15 @@ function TableComponent(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(({ name, email, id }) => (
-            <TableRow key={`${id}+${email}`}>
-              <TableCell key={id} align={column[0].align}>
-                {name}
-              </TableCell>
-              <TableCell align={column[0].email}>
-                {email}
-              </TableCell>
+          {data.map((row) => (
+
+            <TableRow key={row.id}>
+              {
+                column.map(({ field, label, align }) => (
+                  <TableCell key={`${row.id}${label}`} align={align} className={classes.header}>{ row[field]}</TableCell>
+                ))
+              }
+
             </TableRow>
           ))}
         </TableBody>
