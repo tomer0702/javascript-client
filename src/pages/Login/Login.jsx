@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import {
   TextField, Typography, CardContent, InputAdornment, Button, Avatar, Card, CssBaseline, withStyles,
 } from '@material-ui/core';
-import { LockOutlined } from '@material-ui/icons';
 import { schema } from '../../config/constants'
+import { LockOutlined } from '@material-ui/icons';
 import { Email, VisibilityOff } from '@material-ui/icons';
 
 const Design = (theme) => ({
@@ -19,6 +19,7 @@ const Design = (theme) => ({
     marginTop: theme.spacing(25),
     marginLeft: 'auto',
     marginRight: 'auto',
+
   },
 })
 
@@ -142,4 +143,3 @@ Login.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 export default withStyles(Design)(Login);
-
