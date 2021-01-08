@@ -58,7 +58,7 @@ function TableComponent(props) {
             <TableRow
               key={element.id}
               className={classes.root}
-              onMouseEnter={onSelect(element)}
+              onMouseEnter={() => onSelect(element)}
             >
               {column.map(({ field, align, format }) => (
                 <TableCell align={align}>
@@ -81,6 +81,7 @@ TableComponent.propTypes = {
   order: PropTypes.string,
   orderBy: PropTypes.string,
   onSort: PropTypes.func,
+  onSelect: PropTypes.func.isRequired,
 };
 TableComponent.defaultProps = {
   order: 'asc',
