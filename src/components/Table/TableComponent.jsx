@@ -81,11 +81,12 @@ TableComponent.propTypes = {
   order: PropTypes.string,
   orderBy: PropTypes.string,
   onSort: PropTypes.func,
-  onSelect: PropTypes.func.isRequired,
+  onSelect: PropTypes.func,
 };
 TableComponent.defaultProps = {
   order: 'asc',
   orderBy: '',
   onSort: () => {},
+  onSelect: () => {},
 };
 export default withStyles(useStyles)(TableComponent);
