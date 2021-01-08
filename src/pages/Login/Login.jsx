@@ -17,7 +17,6 @@ const Design = (theme) => ({
   main: {
     width: 400,
     marginTop: theme.spacing(25),
-
     marginLeft: 'auto',
     marginRight: 'auto',
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Button, withStyles } from '@material-ui/core';
-import { AddDialog } from './Component/index';
+import { AddDialog } from './Component/AddDialog';
 import { TableComponent } from '../../components';
 import trainees from './Data/trainee';
+import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
   root: {
@@ -20,6 +20,8 @@ class TraineeList extends React.Component {
     super(props);
     this.state = {
       open: false,
+      orderBy: '',
+      order: 'asc',
     };
   }
 
@@ -37,14 +39,29 @@ class TraineeList extends React.Component {
     this.setState({
       open: false,
     }, () => {
-      // eslint-disable-next-line no-console
+      // eslint-disable-next-line
       console.log(data);
     });
   }
 
+  handleSelect = (event) => {
+    // eslint-disable-next-line
+    console.log(event);
+  };
+
+  handleSort = (field) => (event) => {
+    const { order } = this.state;
+    // eslint-disable-next-line
+    console.log(event);
+    this.setState({
+      orderBy: field,
+      order: order === 'asc' ? 'desc' : 'asc',
+    });
+  };
+
   render() {
-    const { open } = this.state;
-    const { match: { url }, classes } = this.props;
+    const { open, order, orderBy } = this.state;
+    const { classes } = this.props;
     return (
       <>
         <div className={classes.root}>
@@ -54,6 +71,8 @@ class TraineeList extends React.Component {
             </Button>
             <AddDialog open={open} onClose={this.handleClose} onSubmit={() => this.handleSubmit} />
           </div>
+          &nbsp;
+          &nbsp;
           <TableComponent
             id="id"
             data={trainees}
@@ -62,31 +81,31 @@ class TraineeList extends React.Component {
                 {
                   field: 'name',
                   label: 'Name',
-                  align: 'center',
                 },
                 {
                   field: 'email',
                   label: 'Email Address',
+                  format: (value) => value && value.toUpperCase(),
+                },
+                {
+                  field: 'createdAt',
+                  label: 'Date',
+                  align: 'right',
+                  format: getDateFormatted,
                 },
               ]
             }
+            onSort={this.handleSort}
+            orderBy={orderBy}
+            order={order}
+            onSelect={this.handleSelect}
           />
-          <ul>
-            {trainees.map(({ name, id }) => (
-              <li key={id}>
-                <Link to={`${url}/${id}`}>
-                  {name}
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
       </>
     );
   }
 }
 TraineeList.propTypes = {
-  match: PropTypes.objectOf(PropTypes.object).isRequired,
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 export default withStyles(useStyles)(TraineeList);
