@@ -4,6 +4,7 @@ import { Button, withStyles } from '@material-ui/core';
 import { AddDialog } from './Component/AddDialog';
 import { TableComponent } from '../../components';
 import trainees from './Data/trainee';
+import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
   root: {
@@ -90,7 +91,7 @@ class TraineeList extends React.Component {
                   field: 'createdAt',
                   label: 'Date',
                   align: 'right',
-                  format: this.getDateFormat,
+                  format: getDateFormatted,
                 },
               ]
             }
