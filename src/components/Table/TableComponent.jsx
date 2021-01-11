@@ -69,11 +69,13 @@ function TableComponent(props) {
                     : element[field]}
                 </TableCell>
               ))}
+              <TableCell>
               {actions.map(({ icon, handler }) => (
                 <IconButton onClick={handler(element)} className={classes.action}>
                   {icon}
                 </IconButton>
               ))}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
