@@ -19,7 +19,6 @@ const Design = (theme) => ({
     marginTop: theme.spacing(25),
     marginLeft: 'auto',
     marginRight: 'auto',
-
   },
 })
 
