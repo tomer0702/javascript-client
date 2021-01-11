@@ -36,4 +36,5 @@ const App = () => (
     </SnackbarProvider>
   </div>
 );
+
 export default App;

@@ -60,7 +60,7 @@ function TableComponent(props) {
             <TableRow
               key={element.id}
               className={classes.root}
-              onMouseEnter={onSelect(element)}
+              onMouseEnter={ () => onSelect(element)}
             >
               {column.map(({ field, align, format }) => (
                 <TableCell align={align}>
@@ -78,6 +78,9 @@ function TableComponent(props) {
           ))}
         </TableBody>
       </Table>
+      {
+        count
+        ?(
       <TablePagination
         component="div"
         rowsPerPageOptions={0}
@@ -86,6 +89,9 @@ function TableComponent(props) {
         page={page}
         onChangePage={onChangePage}
       />
+        )
+        :''
+      } 
     </TableContainer>
   );
 }

@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import { trainees } from './Data/trainee';
+import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
   root: {
@@ -188,7 +189,7 @@ class TraineeList extends React.Component {
                   field: 'createdAt',
                   label: 'Date',
                   align: 'right',
-                  format: this.getDateFormat,
+                  format: getDateFormatted,
                 },
               ]
             }
