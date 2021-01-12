@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -20,8 +19,7 @@ const Design = (theme) => ({
   main: {
     width: 400,
     marginTop: theme.spacing(25),
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: theme.spacing(50),
   },
 });
 
@@ -46,6 +44,7 @@ class Login extends React.Component {
     if (redirect) {
       return <Redirect to="/trainee" />;
     }
+    return '';
   };
 
   handleChange = (key) => ({ target: { value } }) => {
@@ -71,6 +70,7 @@ class Login extends React.Component {
           return err.message;
         }
       }
+      return '';
     };
 
     isTouched = (field) => {
@@ -89,10 +89,9 @@ class Login extends React.Component {
         disabled: true,
         loader: true,
       });
-      await callApi('post', '/user/login', { email: email.trim(), password })
-      .then((res) => {
-        console.log('res',res);
-        localStorage.setItem('token', res.data.data);
+      const resp = await callApi({ email: email.trim(), password }, 'post', '/user/login/');
+      if (resp.data.data && (resp.data.status === 200)) {
+        window.localStorage.setItem('token', resp.data.data);
         this.setState({
           redirect: true,
           message: 'Successfully Login',
@@ -100,8 +99,7 @@ class Login extends React.Component {
           const { message } = this.state;
           value(message, 'success');
         });
-      })
-      .catch(() => {
+      } else {
         this.setState({
           message: 'Email not Registered',
         }, () => {
@@ -109,7 +107,7 @@ class Login extends React.Component {
           value(message, 'error');
         });
       }
-      )}
+    };
 
     render() {
       const { classes } = this.props;
