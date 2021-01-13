@@ -115,4 +115,4 @@ TableComponent.defaultProps = {
   orderBy: '',
   onSort: () => {},
 };
-export default withStyles(useStyles)(hoc(TableComponent));
+export default withStyles(useStyles)(hoc(TableComponent))

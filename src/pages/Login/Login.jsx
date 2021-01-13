@@ -19,7 +19,8 @@ const Design = (theme) => ({
   main: {
     width: 400,
     marginTop: theme.spacing(25),
-    marginLeft: theme.spacing(50),
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 });
 
@@ -89,24 +90,27 @@ class Login extends React.Component {
         disabled: true,
         loader: true,
       });
-      const resp = await callApi({ email: email.trim(), password }, 'post', '/user/login/');
-      if (resp.data.data && (resp.data.status === 200)) {
-        window.localStorage.setItem('token', resp.data.data);
-        this.setState({
-          redirect: true,
-          message: 'Successfully Login',
-        }, () => {
-          const { message } = this.state;
-          value(message, 'success');
+      console.log(email, password);
+      await callApi({ email: email.trim(), password: password.trim() }, 'post', '/user/login/')
+        .then((res) => {
+          localStorage.setItem('token', res.data.data);
+          console.log(res);
+          this.setState({
+            redirect: true,
+            message: 'Successfully Login',
+          }, () => {
+            const { message } = this.state;
+            value(message, 'success');
+          });
+        })
+        .catch(() => {
+          this.setState({
+            message: 'Email not Registered',
+          }, () => {
+            const { message } = this.state;
+            value(message, 'error');
+          });
         });
-      } else {
-        this.setState({
-          message: 'Email not Registered',
-        }, () => {
-          const { message } = this.state;
-          value(message, 'error');
-        });
-      }
     };
 
     render() {

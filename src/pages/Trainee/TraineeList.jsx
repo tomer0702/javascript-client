@@ -8,6 +8,7 @@ import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import callApi from '../../libs/utils/api';
 import { trainees } from './Data/trainee';
+import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
   root: {
@@ -153,10 +154,11 @@ class TraineeList extends React.Component {
   componentDidMount = () => {
     this.setState({ loading: true });
     // eslint-disable-next-line consistent-return
-    callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((response) => {
-      this.setState({ dataObj: response.data.record, loading: false, Count: 100 });
+    callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
+      console.log(res);
+      this.setState({ dataObj: res.data.record, loading: false, Count: 100 });
 
-      if (response.data.status !== 200) {
+      if (res.data.status !== 200) {
         this.setState({
           loading: false,
           Count: 100,
@@ -166,7 +168,7 @@ class TraineeList extends React.Component {
         });
       } else {
         this.setState({ dataObj: trainees, loading: false, Count: 100 });
-        return response;
+        return res;
       }
     });
   }
@@ -222,7 +224,7 @@ class TraineeList extends React.Component {
                   field: 'createdAt',
                   label: 'Date',
                   align: 'right',
-                  format: this.getDateFormat,
+                  format: getDateFormatted,
                 },
               ]
             }
