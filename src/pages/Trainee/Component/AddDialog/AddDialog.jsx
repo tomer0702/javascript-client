@@ -92,6 +92,8 @@ class AddDialog extends React.Component {
       open, onClose, onSubmit, classes,
     } = this.props;
     const { name, password } = this.state;
+
+   
     const ans = [];
     constant.forEach((item) => {
       // console.log('asdf', item.key, Handler);
@@ -128,7 +130,7 @@ class AddDialog extends React.Component {
               <Button onClick={onClose} color="primary">CANCEL</Button>
               <snackbarContext.Consumer>
                 {(value) => (
-                  <Button variant="contained" color="primary" disabled={this.hasErrors()} onClick={() => onSubmit()({ name, email, password })}>SUBMIT</Button>
+                  <Button variant="contained" color="primary" disabled={this.hasErrors()} onClick={() => onSubmit({ name, email, password },value)}>SUBMIT</Button>
                 )}
               </snackbarContext.Consumer>
             </div>
