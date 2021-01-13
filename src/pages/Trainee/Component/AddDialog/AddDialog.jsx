@@ -81,7 +81,7 @@ class AddDialog extends React.Component {
   }
 
   passwordType = (key) => {
-    if (key === 'Password' || key === 'Confirm Password') {
+    if (key === 'password' || key === 'confirmPassword') {
       return 'password';
     }
     return '';
@@ -91,7 +91,7 @@ class AddDialog extends React.Component {
     const {
       open, onClose, onSubmit, classes,
     } = this.props;
-    const { Name, Password } = this.state;
+    const { name, email, password } = this.state;
     const ans = [];
     constant.forEach((item) => {
       // console.log('asdf', item.key, Handler);
@@ -128,7 +128,7 @@ class AddDialog extends React.Component {
               <Button onClick={onClose} color="primary">CANCEL</Button>
               <snackbarContext.Consumer>
                 {(value) => (
-                  <Button variant="contained" color="primary" disabled={this.hasErrors()} onClick={() => onSubmit()({ name, email, password })}>SUBMIT</Button>
+                  <Button variant="contained" color="primary" disabled={this.hasErrors()} onClick={() => onSubmit({ name, email, password })}>SUBMIT</Button>
                 )}
               </snackbarContext.Consumer>
             </div>
