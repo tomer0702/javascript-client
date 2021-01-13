@@ -4,7 +4,7 @@ import { Link, Route } from 'react-router-dom';
 import {
   withStyles, Card, CardContent, Typography, CardMedia, Button,
 } from '@material-ui/core';
-import trainees from './Data/trainee';
+import { trainees } from './Data/trainee';
 import NotFound from '../NoMatch';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 

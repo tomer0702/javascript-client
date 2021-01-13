@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as moment from 'moment';
 import { Button, withStyles } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
-import trainees from './Data/trainee';
+import { trainees } from './Data/trainee';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
@@ -43,13 +44,16 @@ class TraineeList extends React.Component {
     return open;
   };
 
-  handleSubmit = (data) => {
+  handleSubmit = (data, value) => {
     this.setState({
       open: false,
     }, () => {
       // eslint-disable-next-line
       console.log(data);
     });
+    const message = 'This is Success Message';
+    const status = 'success';
+    value(message, status);
   }
 
   handleSelect = (event) => {
@@ -87,13 +91,20 @@ class TraineeList extends React.Component {
     });
   };
 
-  handleRemove = () => {
+  handleRemove = (value) => {
     const { deleteData } = this.state;
     this.setState({
       RemoveOpen: false,
     });
     // eslint-disable-next-line no-console
     console.log('Deleted Item ', deleteData);
+    const { createdAt } = deleteData;
+    const isAfter = moment(createdAt).isSameOrAfter('2019-02-14T18:15:11.778Z');
+    const message = isAfter
+      ? 'This is a success message!'
+      : 'This is an error message!';
+    const status = isAfter ? 'success' : 'error';
+    value(message, status);
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -110,12 +121,24 @@ class TraineeList extends React.Component {
     });
   };
 
-  handleEdit = (name, email) => {
+  handleEdit = (name, email, value) => {
     this.setState({
       EditOpen: false,
     });
     // eslint-disable-next-line no-console
     console.log('Edited Item ', { name, email });
+    const message = 'This is a success message';
+    const status = 'success';
+    value(message, status);
+  };
+
+  handlesnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({
+      // snackbarOpen: false,
+    });
   };
 
   render() {
@@ -130,7 +153,7 @@ class TraineeList extends React.Component {
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               ADD TRAINEELIST
             </Button>
-            <AddDialog open={open} onClose={this.handleClose} onSubmit={() => this.handleSubmit} />
+            <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} />
           </div>
           &nbsp;
           &nbsp;

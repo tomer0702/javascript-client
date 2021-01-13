@@ -1,11 +1,13 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Button, Dialog, DialogContentText, DialogContent, DialogTitle,
 } from '@material-ui/core';
-import { Person, Email, VisibilityOff } from '@material-ui/icons';
+import { Email, Person, VisibilityOff } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import schema from './Schema';
+import { snackbarContext } from '../../../../contexts/index';
 import Handler from './Handler';
 
 const passwordStyle = () => ({
@@ -23,6 +25,7 @@ const constant = [
   { key: 'email', label: 'Email Id', icons: Email },
   { key: 'password', label: 'Password', icons: VisibilityOff },
   { key: 'confirmPassword', label: 'Confirm Password', icons: VisibilityOff }];
+
 
 class AddDialog extends React.Component {
   constructor(props) {
@@ -88,7 +91,6 @@ class AddDialog extends React.Component {
     const {
       open, onClose, onSubmit, classes,
     } = this.props;
-
     const { name, email, password } = this.state;
     const ans = [];
     constant.forEach((item) => {
@@ -111,27 +113,24 @@ class AddDialog extends React.Component {
             <DialogContentText>
               Enter your trainee Details
             </DialogContentText>
-            <div>
-              {ans[0]}
-            </div>
-              &nbsp;
-            <div>
-              {ans[1]}
-            </div>
-              &nbsp;
+            <div>{ans[0]}</div>
+            <br />
+            <div>{ans[1]}</div>
+            <br />
             <div className={classes.passfield}>
-              <div className={classes.pass}>
-                {ans[2]}
-              </div>
-              &nbsp;
-              <div className={classes.pass}>
-                {ans[3]}
-              </div>
+              <div className={classes.pass}>{ans[2]}</div>
+              <br />
+              <br />
+              <div className={classes.pass}>{ans[3]}</div>
             </div>
-              &nbsp;
+            <br />
             <div align="right">
-              <Button onClick={onClose} color="primary"> CANCEL</Button>
-              <Button color="primary" disabled={this.hasErrors()} onClick={() => onSubmit({ name, email, password })}>SUBMIT</Button>
+              <Button onClick={onClose} color="primary">CANCEL</Button>
+              <snackbarContext.Consumer>
+                {(value) => (
+                  <Button variant="contained" color="primary" disabled={this.hasErrors()} onClick={() => onSubmit({ name, email, password },value)}>SUBMIT</Button>
+                )}
+              </snackbarContext.Consumer>
             </div>
           </DialogContent>
         </Dialog>
@@ -145,4 +144,4 @@ AddDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-};
+}
