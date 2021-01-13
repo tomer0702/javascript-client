@@ -81,7 +81,7 @@ class AddDialog extends React.Component {
   }
 
   passwordType = (key) => {
-    if (key === 'Password' || key === 'Confirm Password') {
+    if (key === 'password' || key === 'confirmPassword') {
       return 'password';
     }
     return '';
@@ -91,7 +91,7 @@ class AddDialog extends React.Component {
     const {
       open, onClose, onSubmit, classes,
     } = this.props;
-    const { Name, Password } = this.state;
+    const { name, password } = this.state;
     const ans = [];
     constant.forEach((item) => {
       // console.log('asdf', item.key, Handler);
