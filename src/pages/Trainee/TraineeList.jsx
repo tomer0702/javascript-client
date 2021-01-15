@@ -60,6 +60,7 @@ class TraineeList extends React.Component {
     this.setState({
       open: false,
     }, () => {
+      // eslint-disable-next-line
       console.log(data);
     });
     const message = 'This is Success Message';
@@ -68,11 +69,13 @@ class TraineeList extends React.Component {
   }
 
   handleSelect = (event) => {
+    // eslint-disable-next-line
     console.log(event);
   };
 
   handleSort = (field) => (event) => {
     const { order } = this.state;
+    // eslint-disable-next-line
     console.log(event);
     this.setState({
       orderBy: field,
@@ -155,8 +158,9 @@ class TraineeList extends React.Component {
     this.setState({ loading: true });
     // eslint-disable-next-line consistent-return
     callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
-      console.log(res);
-      this.setState({ dataObj: res.data.record, loading: false, Count: 100 });
+      // eslint-disable-next-line
+      console.log('responseof data', res);
+      this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
 
       if (res.data.status !== 200) {
         this.setState({
@@ -164,6 +168,7 @@ class TraineeList extends React.Component {
           Count: 100,
 
         }, () => {
+          // eslint-disable-next-line
           console.log('call Api');
         });
       } else {

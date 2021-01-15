@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from 'axios';
 
-export default async function callApi(data, method, url) {
+const callApi= async (data, method, url) => {
   const mainUrl = 'http://localhost:9000/api' + url;
   const headers = {
     'Content-Type': 'application/json',
@@ -9,18 +9,19 @@ export default async function callApi(data, method, url) {
     };
   console.log('main url is', mainUrl);
   try {
-    const response = await axios({
+    const res = await axios({
       method,
       url: mainUrl,
       data,
       headers
     });
     
-    return response;
+    return res;
   } 
   catch (err) {
     console.log(err);
-    return { status: 'error', message: 'This is a error message' };
+    return { status: 'error call api', message: 'This is a error message' };
 
   }
 }
+export default callApi;

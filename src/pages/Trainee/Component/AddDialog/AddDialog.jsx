@@ -55,9 +55,9 @@ class AddDialog extends React.Component {
       loading: true,
       hasError: true,
     });
-    const response = await callApi(data, 'post', '/trainee');
+    const res = await callApi(data, 'post', '/trainee');
     this.setState({ loading: false });
-    if (response.statusText === 'OK') {
+    if (res.statusText === 'OK') {
       this.setState({
         hasError: false,
         message: 'This is a success message',

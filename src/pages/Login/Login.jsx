@@ -90,10 +90,12 @@ class Login extends React.Component {
         disabled: true,
         loader: true,
       });
+      // eslint-disable-next-line
       console.log(email, password);
       await callApi({ email: email.trim(), password: password.trim() }, 'post', '/user/login/')
         .then((res) => {
           localStorage.setItem('token', res.data.data);
+          // eslint-disable-next-line
           console.log(res);
           this.setState({
             redirect: true,
