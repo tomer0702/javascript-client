@@ -25,7 +25,6 @@ const App = () => (
           <Route exact path="/">
             <Redirect to="/login" />
 
-
           </Route>
           <AuthRoute path="/login" component={Login} />
           <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />

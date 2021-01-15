@@ -91,7 +91,7 @@ class AddDialog extends React.Component {
     const {
       open, onClose, onSubmit, classes,
     } = this.props;
-    const { name, password } = this.state;
+    const { name,email,password } = this.state;
 
    
     const ans = [];

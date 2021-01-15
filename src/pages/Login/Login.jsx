@@ -89,8 +89,9 @@ class Login extends React.Component {
         disabled: true,
         loader: true,
       });
-      await callApi('post', '/user/login', { email: email.trim(), password })
-      .then((res) => {
+     const res= await callApi('post', '/user/login', { email: email.trim(), password })
+     if(res===!undefined);
+      try {
         console.log('res',res);
         localStorage.setItem('token', res.data.data);
         this.setState({
@@ -100,8 +101,9 @@ class Login extends React.Component {
           const { message } = this.state;
           value(message, 'success');
         });
-      })
-      .catch(() => {
+        
+      }
+      catch(err)  {
         this.setState({
           message: 'Email not Registered',
         }, () => {
@@ -109,7 +111,7 @@ class Login extends React.Component {
           value(message, 'error');
         });
       }
-      )}
+      }
 
     render() {
       const { classes } = this.props;
@@ -174,8 +176,7 @@ class Login extends React.Component {
                     <snackbarContext.Consumer>
                       {(value) => (
                         <Button variant="contained" color="primary" onClick={() => this.onClickHandler(value)} disabled={this.hasErrors()} fullWidth>
-                          {this.renderRedirect()}
-                          <span>{loader ? <CircularProgress size={20} /> : ''}</span>
+                        {this.renderRedirect()}
                           SIGN IN
                         </Button>
                       )}
