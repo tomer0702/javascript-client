@@ -64,7 +64,7 @@ function TableComponent(props) {
             <TableRow
               key={element.id}
               className={classes.root}
-              onMouseEnter={onSelect(element)}
+              onMouseEnter={ () => onSelect(element)}
             >
               {column.map(({ field, align, format }) => (
                 <TableCell onClick={(event) => onSelect(event, element.name)} align={align} component="th" scope="row" order={order} orderBy={orderBy}>
@@ -73,15 +73,20 @@ function TableComponent(props) {
                     : element[field]}
                 </TableCell>
               ))}
+              <TableCell>
               {actions.map(({ icon, handler }) => (
                 <IconButton onClick={handler(element)} className={classes.action}>
                   {icon}
                 </IconButton>
               ))}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      {
+        count
+        ?(
       <TablePagination
         component="div"
         rowsPerPageOptions={0}
@@ -91,12 +96,15 @@ function TableComponent(props) {
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
       />
+        )
+        :''
+      } 
     </TableContainer>
   );
 }
 TableComponent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  data: PropTypes.objectOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   column: PropTypes.arrayOf(PropTypes.object).isRequired,
   order: PropTypes.string,
   orderBy: PropTypes.string,
