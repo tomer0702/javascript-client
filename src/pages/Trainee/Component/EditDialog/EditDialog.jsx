@@ -96,38 +96,41 @@ class EditDialog extends Component {
     return !!iserror.length;
   };
 
-  onClickHandler = async (value, e) => {
+  onClickHandler = async (openSnackBar, e) => {
+    // e.preventDefault();
     this.setState({
       loading: true,
     });
-    const { originalId, name, email} = e;
+    const { name, email} = this.state;
     const { loading } = this.state;
-    console.log('loaaaaadibng', loading);
+    const { data, database,onClose } = this.props;
+    const{ originalId } = data;
+    const dataToUpdate={ originalId, name ,email};
 
-    const res = await callApi({id: originalId, name, email}, 'put', `/trainee`);
-    console.log('edit block', res)
+    const res = await callApi({dataToUpdate}, 'PUT', `/trainee`);
     if (res !== 'undefined') {
       this.setState({
         message: 'Trainee Updated Successfully ',
       }, () => {
         const { message } = this.state;
-        value(message, 'success');
+        openSnackBar(message, 'success');
+        database();
       });
     } else {
       this.setState({
         message: 'Error While Deleting',
       }, () => {
         const { message } = this.state;
-        value(message, 'error');
+        openSnackBar(message, 'error');
       });
     }
+    onClose();
   }
 
   render() {
     const {
       Editopen, handleEditClose, handleEdit, data, classes,
     } = this.props;
-    console.log('data', data);
     const{ originalId } = data;
     const { name, email, error, loading } = this.state;
     return (
@@ -198,9 +201,9 @@ class EditDialog extends Component {
               Cancel
             </Button>
             <snackbarContext.Consumer>
-              {(value) => (
+              {(snackbar) => (
                 <Button
-                  onClick={() => this.onClickHandler(value, { name, email, originalId })}
+                  onClick={() => this.onClickHandler(snackbar, { name, email, originalId })}
                   className={
                     (name === data.name && email === data.email) || this.hasErrors()
                       ? classes.button_error

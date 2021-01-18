@@ -32,7 +32,6 @@ class InputDemo extends React.Component {
     handleNameChange = (e) => {
       this.setState({ name: e.target.value }, () => {
         // eslint-disable-next-line
-        console.log(this.state);
       });
     }
 

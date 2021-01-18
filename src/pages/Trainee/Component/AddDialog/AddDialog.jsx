@@ -136,7 +136,6 @@ class AddDialog extends React.Component {
     } = this.state;
     const ans = [];
     constant.forEach((item) => {
-      // console.log('asdf', item.key, Handler);
       ans.push(<Handler
         label={item.label}
         onChange={this.handleChange(item.key)}

@@ -27,12 +27,9 @@ class DeleteDialog extends Component {
       loading: true,
     });
     const { rmdata, database, onClose } = this.props;
-    console.log("removedata", rmdata);
     const res = await callApi(rmdata, 'delete', `/trainee/${rmdata.originalId}`);
-    console.log("delete block", res);
     this.setState({ loading: false });
     if (res.statusText === 'OK') {
-      console.log("statustext", res.statusText);
       this.setState({
         message: 'Deleted Successfully ',
       }, () => {
@@ -78,7 +75,7 @@ class DeleteDialog extends Component {
             </Button>
             <snackbarContext.Consumer>
               {(openSnackBar) => (
-                <Button onClick={() => {console.log("opensnck", openSnackBar);this.onClickHandler(deleteData,openSnackBar)}
+                <Button onClick={() => this.onClickHandler(deleteData,openSnackBar)
                 }
                 >
                   {loading && (

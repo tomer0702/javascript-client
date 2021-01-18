@@ -60,7 +60,6 @@ class TraineeList extends React.Component {
     this.setState({
       open: false,
     }, () => {
-      console.log(data);
     });
     const message = 'This is Success Message';
     const status = 'success';
@@ -68,12 +67,10 @@ class TraineeList extends React.Component {
   }
 
   handleSelect = (event) => {
-    console.log(event);
   };
 
   handleSort = (field) => (event) => {
     const { order } = this.state;
-    console.log(event);
     this.setState({
       orderBy: field,
       order: order === 'asc' ? 'desc' : 'asc',
@@ -97,6 +94,7 @@ class TraineeList extends React.Component {
 
   handleRemoveClose = () => {
     this.setState({
+      EditOpen: false,
       RemoveOpen: false,
     });
   };
@@ -106,9 +104,7 @@ class TraineeList extends React.Component {
     this.setState({
       RemoveOpen: false,
     });
-    console.log('value trainee', value);
     // eslint-disable-next-line no-console
-    console.log('Deleted Item ', deleteData);
     const { createdAt } = deleteData;
     const isAfter = moment(createdAt).isSameOrAfter('2019-02-14T18:15:11.778Z');
     const message = isAfter
@@ -137,7 +133,6 @@ class TraineeList extends React.Component {
       EditOpen: false,
     });
     // eslint-disable-next-line no-console
-    console.log('Edited Item ', { name, email });
     const message = 'This is a success message';
     const status = 'success';
     value(message, status);
@@ -159,7 +154,6 @@ class TraineeList extends React.Component {
   renderData= async()=>{
     // eslint-disable-next-line consistent-return
     callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
-      console.log('responseof data', res);
       this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
 
       if (res.data.status !== 200) {
@@ -200,6 +194,8 @@ class TraineeList extends React.Component {
             handleEditClose={this.handleEditClose}
             handleEdit={this.handleEdit}
             data={editData}
+            database={this.renderData}
+            onClose={this.handleRemoveClose}
           />
           <br />
           <DeleteDialog
