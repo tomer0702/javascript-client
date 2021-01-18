@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as moment from 'moment';
@@ -8,7 +9,6 @@ import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import callApi from '../../libs/utils/api';
 import { trainees } from './Data/trainee';
-import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
   root: {
@@ -60,7 +60,6 @@ class TraineeList extends React.Component {
     this.setState({
       open: false,
     }, () => {
-      // eslint-disable-next-line
       console.log(data);
     });
     const message = 'This is Success Message';
@@ -69,13 +68,11 @@ class TraineeList extends React.Component {
   }
 
   handleSelect = (event) => {
-    // eslint-disable-next-line
     console.log(event);
   };
 
   handleSort = (field) => (event) => {
     const { order } = this.state;
-    // eslint-disable-next-line
     console.log(event);
     this.setState({
       orderBy: field,
@@ -109,6 +106,7 @@ class TraineeList extends React.Component {
     this.setState({
       RemoveOpen: false,
     });
+    console.log('value trainee', value);
     // eslint-disable-next-line no-console
     console.log('Deleted Item ', deleteData);
     const { createdAt } = deleteData;
@@ -156,9 +154,11 @@ class TraineeList extends React.Component {
 
   componentDidMount = () => {
     this.setState({ loading: true });
+    this.renderData(); 
+  }
+  renderData= async()=>{
     // eslint-disable-next-line consistent-return
     callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
-      // eslint-disable-next-line
       console.log('responseof data', res);
       this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
 
@@ -168,7 +168,6 @@ class TraineeList extends React.Component {
           Count: 100,
 
         }, () => {
-          // eslint-disable-next-line
           console.log('call Api');
         });
       } else {
@@ -182,7 +181,7 @@ class TraineeList extends React.Component {
     const {
       open, order, orderBy, page,
       rowsPerPage, EditOpen, RemoveOpen, editData,
-      loading, dataObj, Count,
+      loading, dataObj, Count, deleteData,
     } = this.state;
     const { classes } = this.props;
     return (
@@ -207,6 +206,8 @@ class TraineeList extends React.Component {
             openRemove={RemoveOpen}
             onClose={this.handleRemoveClose}
             remove={this.handleRemove}
+            rmdata={deleteData}
+            database={this.renderData}
           />
           <br />
           <br />
@@ -229,7 +230,7 @@ class TraineeList extends React.Component {
                   field: 'createdAt',
                   label: 'Date',
                   align: 'right',
-                  format: getDateFormatted,
+                  format: this.getDateFormat,
                 },
               ]
             }

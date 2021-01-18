@@ -31,6 +31,7 @@ function TableComponent(props) {
     classes, data, column, order, orderBy, onSort, onSelect, count, page, actions,
     rowsPerPage, onChangePage, onChangeRowsPerPage,
   } = props;
+  console.log(' data :', data);
 
   return (
     <TableContainer component={Paper}>
@@ -73,15 +74,20 @@ function TableComponent(props) {
                     : element[field]}
                 </TableCell>
               ))}
+              <TableCell>
               {actions.map(({ icon, handler }) => (
                 <IconButton onClick={handler(element)} className={classes.action}>
                   {icon}
                 </IconButton>
               ))}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      {
+        count
+        ?(
       <TablePagination
         component="div"
         rowsPerPageOptions={0}
@@ -91,12 +97,15 @@ function TableComponent(props) {
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
       />
+      )
+        :''
+      } 
+    
     </TableContainer>
   );
 }
 TableComponent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  data: PropTypes.objectOf(PropTypes.object).isRequired,
+  classes: PropTypes.arrayOf(PropTypes.object).isRequired,
   column: PropTypes.arrayOf(PropTypes.object).isRequired,
   order: PropTypes.string,
   orderBy: PropTypes.string,
@@ -114,4 +123,4 @@ TableComponent.defaultProps = {
   orderBy: '',
   onSort: () => {},
 };
-export default withStyles(useStyles)(hoc(TableComponent))
+export default withStyles(useStyles)(hoc(TableComponent));
