@@ -23,7 +23,8 @@ const App = () => (
       <Router>
         <Switch>
           <Route exact path="/">
-            <Redirect to="/Trainee" />
+            <Redirect to="/login" />
+
           </Route>
           <AuthRoute path="/login" component={Login} />
           <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />

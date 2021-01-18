@@ -91,7 +91,9 @@ class AddDialog extends React.Component {
     const {
       open, onClose, onSubmit, classes,
     } = this.props;
-    const { name, email, password } = this.state;
+    const { name,email,password } = this.state;
+
+   
     const ans = [];
     constant.forEach((item) => {
       // console.log('asdf', item.key, Handler);
