@@ -129,11 +129,13 @@ class AddDialog extends React.Component {
     const {
       open, onClose, classes,
     } = this.props;
+
     // eslint-disable-next-line no-shadow
     const {
     // eslint-disable-next-line no-shadow
       name, email, password, loading,
     } = this.state;
+
     const ans = [];
     constant.forEach((item) => {
       // console.log('asdf', item.key, Handler);

@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 const handleLogout = () => {
   localStorage.remove('token');
-};
 
 function NavBar() {
   const classes = useStyles();
