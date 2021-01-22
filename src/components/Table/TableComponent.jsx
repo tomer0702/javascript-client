@@ -57,10 +57,7 @@ function TableComponent(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(rowsPerPage > 0
-            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : data
-          ).map((element) => (
+          {
             <TableRow
               key={element.id}
               className={classes.root}
@@ -81,7 +78,7 @@ function TableComponent(props) {
               ))}
               </TableCell>
             </TableRow>
-          ))}
+          }
         </TableBody>
       </Table>
       {

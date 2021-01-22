@@ -31,7 +31,7 @@ class TraineeList extends React.Component {
       editData: {},
       deleteData: {},
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 20,
       loading: false,
       Count: 0,
       dataObj: [],
@@ -84,9 +84,8 @@ class TraineeList extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
-    this.componentDidMount(newPage);
-    this.setState({
-      page: newPage,
+    this.setState({ page: newPage }, () => {
+      this.renderData();
     });
   };
 
@@ -156,11 +155,14 @@ class TraineeList extends React.Component {
 
   componentDidMount = () => {
     this.setState({ loading: true });
+    this.renderData();
+  }
+
+  renderData= async () => {
+    const { page, rowsPerPage } = this.state;
     // eslint-disable-next-line consistent-return
-    callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
-      // eslint-disable-next-line
-      console.log('responseof data', res);
-      this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
+    callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
+      this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
 
       if (res.data.status !== 200) {
         this.setState({
@@ -168,11 +170,10 @@ class TraineeList extends React.Component {
           Count: 100,
 
         }, () => {
-          // eslint-disable-next-line
           console.log('call Api');
         });
       } else {
-        this.setState({ dataObj: trainees, loading: false, Count: 100 });
+        this.setState({ dataObj: trainees, loading: false });
         return res;
       }
     });
