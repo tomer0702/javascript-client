@@ -186,6 +186,7 @@ class AddDialog extends React.Component {
                     {loading && <span>Submitting</span>}
                     {!loading && <span>Submit</span>}
                   </Button>
+
                 )}
               </snackbarContext.Consumer>
             </div>

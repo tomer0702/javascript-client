@@ -176,8 +176,7 @@ class Login extends React.Component {
                     <snackbarContext.Consumer>
                       {(value) => (
                         <Button variant="contained" color="primary" onClick={() => this.onClickHandler(value)} disabled={this.hasErrors()} fullWidth>
-                          {this.renderRedirect()}
-                          <span>{loader ? <CircularProgress size={20} /> : ''}</span>
+                        {this.renderRedirect()}
                           SIGN IN
                         </Button>
                       )}
