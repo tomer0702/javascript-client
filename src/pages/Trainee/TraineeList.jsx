@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as moment from 'moment';
@@ -7,7 +8,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import callApi from '../../libs/utils/api';
-import { trainees } from './Data/trainee';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
@@ -167,21 +167,15 @@ class TraineeList extends React.Component {
        console.log('response', res);
        console.log('responserecord', res.data.data.records);
        console.log('responsecount', res.data.data.count);
-       console.log('responsestatus', res.status);
-       // eslint-disable-next-line max-len
-       this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
-
        if (res.status !== 200) {
          this.setState({
            loading: false,
-           Count: 100,
-
+           Count: 0,
          }, () => {
            console.log('call Api');
          });
        } else {
-         this.setState({ dataObj: trainees, loading: false });
-         return res;
+         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
        }
      });
    }
