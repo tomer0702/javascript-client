@@ -85,7 +85,7 @@ class TraineeList extends React.Component {
 
   handleChangePage = (event, newPage) => {
     this.setState({ page: newPage }, () => {
-      this.renderData();
+      this.getTraineeData();
     });
   };
 
@@ -155,110 +155,111 @@ class TraineeList extends React.Component {
 
   componentDidMount = () => {
     this.setState({ loading: true });
-    this.renderData();
+    this.getTraineeData();
   }
 
-  renderData= async () => {
-    const { page, rowsPerPage } = this.state;
-    // eslint-disable-next-line consistent-return
-    callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
-      this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
+   getTraineeData= async () => {
+     const { page, rowsPerPage } = this.state;
+     // eslint-disable-next-line consistent-return
+     callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
+       // eslint-disable-next-line max-len
+       this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
 
-      if (res.data.status !== 200) {
-        this.setState({
-          loading: false,
-          Count: 100,
+       if (res.data.status !== 200) {
+         this.setState({
+           loading: false,
+           Count: 100,
 
-        }, () => {
-          console.log('call Api');
-        });
-      } else {
-        this.setState({ dataObj: trainees, loading: false });
-        return res;
-      }
-    });
-  }
+         }, () => {
+           console.log('call Api');
+         });
+       } else {
+         this.setState({ dataObj: trainees, loading: false });
+         return res;
+       }
+     });
+   }
 
-  render() {
-    const {
-      open, order, orderBy, page,
-      rowsPerPage, EditOpen, RemoveOpen, editData,
-      loading, dataObj, Count,
-    } = this.state;
-    const { classes } = this.props;
-    return (
-      <>
-        <div className={classes.root}>
-          <div className={classes.dialog}>
-            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-              ADD TRAINEELIST
-            </Button>
-            <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} />
-          </div>
+   render() {
+     const {
+       open, order, orderBy, page,
+       rowsPerPage, EditOpen, RemoveOpen, editData,
+       loading, dataObj, Count,
+     } = this.state;
+     const { classes } = this.props;
+     return (
+       <>
+         <div className={classes.root}>
+           <div className={classes.dialog}>
+             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+               ADD TRAINEELIST
+             </Button>
+             <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} />
+           </div>
           &nbsp;
           &nbsp;
-          <EditDialog
-            Editopen={EditOpen}
-            handleEditClose={this.handleEditClose}
-            handleEdit={this.handleEdit}
-            data={editData}
-          />
-          <br />
-          <DeleteDialog
-            openRemove={RemoveOpen}
-            onClose={this.handleRemoveClose}
-            remove={this.handleRemove}
-          />
-          <br />
-          <br />
-          <TableComponent
-            loader={loading}
-            id="id"
-            data={dataObj}
-            column={
-              [
-                {
-                  field: 'name',
-                  label: 'Name',
-                },
-                {
-                  field: 'email',
-                  label: 'Email Address',
-                  format: (value) => value && value.toUpperCase(),
-                },
-                {
-                  field: 'createdAt',
-                  label: 'Date',
-                  align: 'right',
-                  format: getDateFormatted,
-                },
-              ]
-            }
-            actions={[
-              {
-                icon: <EditIcon />,
-                handler: this.handleEditDialogOpen,
+           <EditDialog
+             Editopen={EditOpen}
+             handleEditClose={this.handleEditClose}
+             handleEdit={this.handleEdit}
+             data={editData}
+           />
+           <br />
+           <DeleteDialog
+             openRemove={RemoveOpen}
+             onClose={this.handleRemoveClose}
+             remove={this.handleRemove}
+           />
+           <br />
+           <br />
+           <TableComponent
+             loader={loading}
+             id="id"
+             data={dataObj}
+             column={
+               [
+                 {
+                   field: 'name',
+                   label: 'Name',
+                 },
+                 {
+                   field: 'email',
+                   label: 'Email Address',
+                   format: (value) => value && value.toUpperCase(),
+                 },
+                 {
+                   field: 'createdAt',
+                   label: 'Date',
+                   align: 'right',
+                   format: getDateFormatted,
+                 },
+               ]
+             }
+             actions={[
+               {
+                 icon: <EditIcon />,
+                 handler: this.handleEditDialogOpen,
 
-              },
-              {
-                icon: <DeleteIcon />,
-                handler: this.handleRemoveDialogOpen,
-              },
-            ]}
-            onSort={this.handleSort}
-            orderBy={orderBy}
-            order={order}
-            onSelect={this.handleSelect}
-            count={Count}
-            page={page}
-            onChangePage={this.handleChangePage}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage}
-            rowsPerPage={rowsPerPage}
-          />
-        </div>
-      </>
-    );
-  }
+               },
+               {
+                 icon: <DeleteIcon />,
+                 handler: this.handleRemoveDialogOpen,
+               },
+             ]}
+             onSort={this.handleSort}
+             orderBy={orderBy}
+             order={order}
+             onSelect={this.handleSelect}
+             count={Count}
+             page={page}
+             onChangePage={this.handleChangePage}
+             onChangeRowsPerPage={this.handleChangeRowsPerPage}
+             rowsPerPage={rowsPerPage}
+           />
+         </div>
+       </>
+     );
+   }
 }
 TraineeList.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
