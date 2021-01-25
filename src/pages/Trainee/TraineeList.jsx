@@ -160,12 +160,18 @@ class TraineeList extends React.Component {
 
    getTraineeData= async () => {
      const { page, rowsPerPage } = this.state;
+     console.log('inside get function');
      // eslint-disable-next-line consistent-return
      callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
        // eslint-disable-next-line max-len
+       console.log('response', res);
+       console.log('responserecord', res.data.data.records);
+       console.log('responsecount', res.data.data.count);
+       console.log('responsestatus', res.status);
+       // eslint-disable-next-line max-len
        this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
 
-       if (res.data.status !== 200) {
+       if (res.status !== 200) {
          this.setState({
            loading: false,
            Count: 100,

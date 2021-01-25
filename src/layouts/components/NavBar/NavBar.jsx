@@ -4,7 +4,6 @@ import {
   AppBar, Toolbar, Typography, CssBaseline, Button,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import localStorage from 'local-storage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const handleLogout = () => {
-  localStorage.remove('token');
+  localStorage.removeItem('token');
+};
 
 function NavBar() {
   const classes = useStyles();
