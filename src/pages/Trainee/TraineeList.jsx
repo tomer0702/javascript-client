@@ -149,9 +149,9 @@ class TraineeList extends React.Component {
 
   componentDidMount = () => {
     this.setState({ loading: true });
-    this.renderData(); 
+    this. getTraineeData(); 
   }
-  renderData= async()=>{
+   getTraineeData= async()=>{
     // eslint-disable-next-line consistent-return
     callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
       this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
@@ -194,7 +194,7 @@ class TraineeList extends React.Component {
             handleEditClose={this.handleEditClose}
             handleEdit={this.handleEdit}
             data={editData}
-            database={this.renderData}
+            database={this. getTraineeData}
             onClose={this.handleRemoveClose}
           />
           <br />
@@ -203,7 +203,7 @@ class TraineeList extends React.Component {
             onClose={this.handleRemoveClose}
             remove={this.handleRemove}
             rmdata={deleteData}
-            database={this.renderData}
+            database={this. getTraineeData}
           />
           <br />
           <br />
