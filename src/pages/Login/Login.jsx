@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -46,6 +45,7 @@ class Login extends React.Component {
     if (redirect) {
       return <Redirect to="/trainee" />;
     }
+    return '';
   };
 
   handleChange = (key) => ({ target: { value } }) => {
@@ -71,6 +71,7 @@ class Login extends React.Component {
           return err.message;
         }
       }
+      return '';
     };
 
     isTouched = (field) => {
@@ -89,29 +90,30 @@ class Login extends React.Component {
         disabled: true,
         loader: true,
       });
-     const res= await callApi('post', '/user/login', { email: email.trim(), password })
-     if(res===!undefined);
-      try {
-        console.log('res',res);
-        localStorage.setItem('token', res.data.data);
-        this.setState({
-          redirect: true,
-          message: 'Successfully Login',
-        }, () => {
-          const { message } = this.state;
-          value(message, 'success');
+      // eslint-disable-next-line
+      console.log(email, password);
+      await callApi({ email: email.trim(), password: password.trim() }, 'post', '/user/login/')
+        .then((res) => {
+          localStorage.setItem('token', res.data.data);
+          // eslint-disable-next-line
+          console.log(res);
+          this.setState({
+            redirect: true,
+            message: 'Successfully Login',
+          }, () => {
+            const { message } = this.state;
+            value(message, 'success');
+          });
+        })
+        .catch(() => {
+          this.setState({
+            message: 'Email not Registered',
+          }, () => {
+            const { message } = this.state;
+            value(message, 'error');
+          });
         });
-        
-      }
-      catch(err)  {
-        this.setState({
-          message: 'Email not Registered',
-        }, () => {
-          const { message } = this.state;
-          value(message, 'error');
-        });
-      }
-      }
+    };
 
     render() {
       const { classes } = this.props;
@@ -176,7 +178,8 @@ class Login extends React.Component {
                     <snackbarContext.Consumer>
                       {(value) => (
                         <Button variant="contained" color="primary" onClick={() => this.onClickHandler(value)} disabled={this.hasErrors()} fullWidth>
-                        {this.renderRedirect()}
+                          {this.renderRedirect()}
+                          <span>{loader ? <CircularProgress size={20} /> : ''}</span>
                           SIGN IN
                         </Button>
                       )}

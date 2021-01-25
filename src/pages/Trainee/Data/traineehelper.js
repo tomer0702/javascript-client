@@ -1,4 +1,4 @@
-import { getDateFormatted } from './trainee';
+import { getDateFormatted } from '../../../libs/utils/getdateformat';
 
 const columns = [
   {

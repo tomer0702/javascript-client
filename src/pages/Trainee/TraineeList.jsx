@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as moment from 'moment';
@@ -6,7 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
-import { trainees } from './Data/trainee';
+import callApi from '../../libs/utils/api';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
@@ -30,7 +31,10 @@ class TraineeList extends React.Component {
       editData: {},
       deleteData: {},
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 20,
+      loading: false,
+      Count: 0,
+      dataObj: [],
     };
   }
 
@@ -42,6 +46,14 @@ class TraineeList extends React.Component {
     const { open } = this.state;
     this.setState({ open: false });
     return open;
+  };
+
+  handleChangeRowsPerPage = (event) => {
+    this.setState({
+      rowsPerPage: event.target.value,
+      page: 0,
+
+    });
   };
 
   handleSubmit = (data, value) => {
@@ -72,8 +84,8 @@ class TraineeList extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
-    this.setState({
-      page: newPage,
+    this.setState({ page: newPage }, () => {
+      this.getTraineeData();
     });
   };
 
@@ -141,82 +153,113 @@ class TraineeList extends React.Component {
     });
   };
 
-  render() {
-    const {
-      open, order, orderBy, page, rowsPerPage, EditOpen, RemoveOpen, editData,
-    } = this.state;
-    const { classes } = this.props;
-    return (
-      <>
-        <div className={classes.root}>
-          <div className={classes.dialog}>
-            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-              ADD TRAINEELIST
-            </Button>
-            <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} />
-          </div>
-          &nbsp;
-          &nbsp;
-          <EditDialog
-            Editopen={EditOpen}
-            handleEditClose={this.handleEditClose}
-            handleEdit={this.handleEdit}
-            data={editData}
-          />
-          <br />
-          <DeleteDialog
-            openRemove={RemoveOpen}
-            onClose={this.handleRemoveClose}
-            remove={this.handleRemove}
-          />
-          <br />
-          <br />
-          <TableComponent
-            id="id"
-            data={trainees}
-            column={
-              [
-                {
-                  field: 'name',
-                  label: 'Name',
-                },
-                {
-                  field: 'email',
-                  label: 'Email Address',
-                  format: (value) => value && value.toUpperCase(),
-                },
-                {
-                  field: 'createdAt',
-                  label: 'Date',
-                  align: 'right',
-                  format: getDateFormatted,
-                },
-              ]
-            }
-            actions={[
-              {
-                icon: <EditIcon />,
-                handler: this.handleEditDialogOpen,
-
-              },
-              {
-                icon: <DeleteIcon />,
-                handler: this.handleRemoveDialogOpen,
-              },
-            ]}
-            onSort={this.handleSort}
-            orderBy={orderBy}
-            order={order}
-            onSelect={this.handleSelect}
-            count={100}
-            page={page}
-            onChangePage={this.handleChangePage}
-            rowsPerPage={rowsPerPage}
-          />
-        </div>
-      </>
-    );
+  componentDidMount = () => {
+    this.setState({ loading: true });
+    this.getTraineeData();
   }
+
+   getTraineeData= async () => {
+     const { page, rowsPerPage } = this.state;
+     console.log('inside get function');
+     // eslint-disable-next-line consistent-return
+     callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
+       // eslint-disable-next-line max-len
+       console.log('response', res);
+       console.log('responserecord', res.data.data.records);
+       console.log('responsecount', res.data.data.count);
+       if (res.status !== 200) {
+         this.setState({
+           loading: false,
+           Count: 0,
+         }, () => {
+           console.log('call Api');
+         });
+       } else {
+         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
+       }
+     });
+   }
+
+   render() {
+     const {
+       open, order, orderBy, page,
+       rowsPerPage, EditOpen, RemoveOpen, editData,
+       loading, dataObj, Count,
+     } = this.state;
+     const { classes } = this.props;
+     return (
+       <>
+         <div className={classes.root}>
+           <div className={classes.dialog}>
+             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+               ADD TRAINEELIST
+             </Button>
+             <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} />
+           </div>
+          &nbsp;
+          &nbsp;
+           <EditDialog
+             Editopen={EditOpen}
+             handleEditClose={this.handleEditClose}
+             handleEdit={this.handleEdit}
+             data={editData}
+           />
+           <br />
+           <DeleteDialog
+             openRemove={RemoveOpen}
+             onClose={this.handleRemoveClose}
+             remove={this.handleRemove}
+           />
+           <br />
+           <br />
+           <TableComponent
+             loader={loading}
+             id="id"
+             data={dataObj}
+             column={
+               [
+                 {
+                   field: 'name',
+                   label: 'Name',
+                 },
+                 {
+                   field: 'email',
+                   label: 'Email Address',
+                   format: (value) => value && value.toUpperCase(),
+                 },
+                 {
+                   field: 'createdAt',
+                   label: 'Date',
+                   align: 'right',
+                   format: getDateFormatted,
+                 },
+               ]
+             }
+             actions={[
+               {
+                 icon: <EditIcon />,
+                 handler: this.handleEditDialogOpen,
+
+               },
+               {
+                 icon: <DeleteIcon />,
+                 handler: this.handleRemoveDialogOpen,
+               },
+             ]}
+             onSort={this.handleSort}
+             orderBy={orderBy}
+             order={order}
+             onSelect={this.handleSelect}
+             count={Count}
+             page={page}
+             onChangePage={this.handleChangePage}
+             onChangeRowsPerPage={this.handleChangeRowsPerPage}
+             rowsPerPage={rowsPerPage}
+           />
+         </div>
+       </>
+     );
+   }
 }
 TraineeList.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,

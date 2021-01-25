@@ -5,6 +5,7 @@ import {
   Table, TableCell, TableContainer, TableHead, TableRow, Paper, withStyles, TableBody,
   TableSortLabel, TablePagination, IconButton,
 } from '@material-ui/core';
+import { hoc } from '../HOC/index';
 
 const useStyles = (theme) => ({
   table: {
@@ -28,7 +29,7 @@ function TableComponent(props) {
   const {
     // eslint-disable-next-line react/prop-types
     classes, data, column, order, orderBy, onSort, onSelect, count, page, actions,
-    rowsPerPage, onChangePage,
+    rowsPerPage, onChangePage, onChangeRowsPerPage,
   } = props;
 
   return (
@@ -37,18 +38,18 @@ function TableComponent(props) {
         <TableHead>
           <TableRow>
             {
-              column.map((Data) => (
+              column.map(({ align, label }) => (
                 <TableCell
-                  className={classes.header}
-                  align={Data.align}
-                  sortDirection={orderBy === Data.label ? order : false}
+                  className={classes.column}
+                  align={align}
+                  sortDirection={orderBy === label ? order : false}
                 >
                   <TableSortLabel
-                    active={orderBy === Data.label}
-                    direction={orderBy === Data.label ? order : 'asc'}
-                    onClick={onSort(Data.label)}
+                    active={orderBy === label}
+                    direction={orderBy === label ? order : 'asc'}
+                    onClick={onSort(label)}
                   >
-                    {Data.label}
+                    {label}
                   </TableSortLabel>
                 </TableCell>
               ))
@@ -63,7 +64,7 @@ function TableComponent(props) {
               onMouseEnter={ () => onSelect(element)}
             >
               {column.map(({ field, align, format }) => (
-                <TableCell align={align}>
+                <TableCell onClick={(event) => onSelect(event, element.name)} align={align} component="th" scope="row" order={order} orderBy={orderBy}>
                   {format !== undefined
                     ? format(element[field])
                     : element[field]}
@@ -90,6 +91,7 @@ function TableComponent(props) {
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={onChangePage}
+        onChangeRowsPerPage={onChangeRowsPerPage}
       />
         )
         :''
@@ -110,10 +112,11 @@ TableComponent.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
   onSelect: PropTypes.func.isRequired,
+  onChangeRowsPerPage: PropTypes.func.isRequired,
 };
 TableComponent.defaultProps = {
   order: 'asc',
   orderBy: '',
   onSort: () => {},
 };
-export default withStyles(useStyles)(TableComponent);
+export default withStyles(useStyles)(hoc(TableComponent))
