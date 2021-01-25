@@ -91,6 +91,7 @@ class Login extends React.Component {
         loader: true,
       });
       // eslint-disable-next-line
+      console.log(email, password);
       await callApi({ email: email.trim(), password: password.trim() }, 'post', '/user/login/')
         .then((res) => {
           localStorage.setItem('token', res.data.data);
@@ -176,7 +177,8 @@ class Login extends React.Component {
                     <snackbarContext.Consumer>
                       {(value) => (
                         <Button variant="contained" color="primary" onClick={() => this.onClickHandler(value)} disabled={this.hasErrors()} fullWidth>
-                        {this.renderRedirect()}
+                          {this.renderRedirect()}
+                          <span>{loader ? <CircularProgress size={20} /> : ''}</span>
                           SIGN IN
                         </Button>
                       )}

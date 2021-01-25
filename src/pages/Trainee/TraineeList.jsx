@@ -8,7 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import callApi from '../../libs/utils/api';
-import { trainees } from './Data/trainee';
+
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
@@ -32,7 +32,7 @@ class TraineeList extends React.Component {
       editData: {},
       deleteData: {},
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 20,
       loading: false,
       Count: 0,
       dataObj: [],
@@ -79,10 +79,10 @@ class TraineeList extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
+
     this.componentDidMount(newPage);
-    this.setState({
-      page: newPage,
-    });
+    this.setState({ page: newPage }, () => {
+      this.getTraineeData();
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -153,22 +153,22 @@ class TraineeList extends React.Component {
     this. getTraineeData(); 
   }
    getTraineeData= async()=>{
-    // eslint-disable-next-line consistent-return
-    callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
+     const { page, rowsPerPage } = this.state;
+     console.log('inside get function');
+     // eslint-disable-next-line consistent-return
+     callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
       this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
 
-      if (res.data.status !== 200) {
-        this.setState({
-          loading: false,
-          Count: 100,
-
-        }, () => {
-          console.log('call Api');
-        });
-      } else {
-        this.setState({ dataObj: trainees, loading: false, Count: 100 });
-        return res;
-      }
+      if (res.status !== 200) {
+         this.setState({
+           loading: false,
+           Count: 0,
+         }, () => {
+           console.log('call Api');
+         });
+       } else {
+         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
+       }
     });
   }
 
@@ -255,6 +255,7 @@ class TraineeList extends React.Component {
         </div>
       </>
     );
+  }
   }
 }
 TraineeList.propTypes = {
