@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   TextField, Typography, CardContent, InputAdornment, Button, Avatar, Card, CssBaseline, withStyles,
   CircularProgress,
 } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { Email, VisibilityOff, LockOutlined } from '@material-ui/icons';
 import { schema } from '../../config/constants';
-import callApi from '../../libs/utils/api';
+// import callApi from '../../libs/utils/api';
 import { snackbarContext } from '../../contexts/index';
 
 const Design = (theme) => ({
@@ -24,7 +24,7 @@ const Design = (theme) => ({
   },
 });
 
-class Login extends React.Component {
+class Login extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -85,15 +85,17 @@ class Login extends React.Component {
     }
 
     onClickHandler = async (value) => {
+      const { loginUser } = this.props;
       const { email, password } = this.state;
       await this.setState({
         disabled: true,
         loader: true,
       });
       // eslint-disable-next-line
-      await callApi({ email: email.trim(), password: password.trim() }, 'post', '/user/login/')
+      // await callApi({ email: email.trim(), password: password.trim() }, 'post', '/user/login/')
+      await loginUser({ variables: { email: email.trim(), password: password.trim() } })
         .then((res) => {
-          localStorage.setItem('token', res.data.data);
+          localStorage.setItem('token', res.data.loginUser);
           // eslint-disable-next-line
           this.setState({
             redirect: true,
@@ -193,5 +195,6 @@ class Login extends React.Component {
 }
 Login.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  loginUser: PropTypes.func.isRequired,
 };
-export default withStyles(Design)(Login);
+export default withRouter(withStyles(Design)(Login));
