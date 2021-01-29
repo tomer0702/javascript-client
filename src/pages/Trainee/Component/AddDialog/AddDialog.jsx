@@ -55,8 +55,9 @@ class AddDialog extends React.Component {
       loading: true,
       hasError: true,
     });
-    const res = await callApi(data, 'post', '/trainee');
+    const res = await callApi({ ...data, role: 'trainee' }, 'post', '/trainee');
     this.setState({ loading: false });
+    const { database } = this.props;
     if (res.statusText === 'OK') {
       this.setState({
         hasError: false,
@@ -64,6 +65,7 @@ class AddDialog extends React.Component {
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'success');
+        database();
       });
     } else {
       this.setState({
@@ -178,6 +180,7 @@ class AddDialog extends React.Component {
                         name, email, password,
                       }, value);
                       this.formReset();
+                      onClose();
                     }}
                   >
                     {loading && (
@@ -201,4 +204,6 @@ AddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  database: PropTypes.func.isRequired,
+
 };

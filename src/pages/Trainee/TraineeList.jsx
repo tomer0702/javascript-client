@@ -32,7 +32,7 @@ class TraineeList extends React.Component {
       editData: {},
       deleteData: {},
       page: 0,
-      rowsPerPage: 20,
+      rowsPerPage: 10,
       loading: false,
       Count: 0,
       dataObj: [],
@@ -79,10 +79,9 @@ class TraineeList extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
-
-    this.componentDidMount(newPage);
     this.setState({ page: newPage }, () => {
       this.getTraineeData();
+    })
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -154,20 +153,16 @@ class TraineeList extends React.Component {
   }
    getTraineeData= async()=>{
      const { page, rowsPerPage } = this.state;
-     console.log('inside get function');
-     // eslint-disable-next-line consistent-return
      callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
-      this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
-
       if (res.status !== 200) {
          this.setState({
            loading: false,
-           Count: 0,
+           Count: res.data.data.count,
          }, () => {
            console.log('call Api');
          });
        } else {
-         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
+         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count});
        }
     });
   }
@@ -186,7 +181,13 @@ class TraineeList extends React.Component {
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               ADD TRAINEELIST
             </Button>
-            <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} />
+            <AddDialog 
+            open={open} 
+            onClose={this.handleClose}
+            onSubmit={this.handleSubmit}
+            database={this.getTraineeData}
+            onclose={this.handleRemoveClose}
+           />
           </div>
           &nbsp;
           &nbsp;
@@ -255,7 +256,6 @@ class TraineeList extends React.Component {
         </div>
       </>
     );
-  }
   }
 }
 TraineeList.propTypes = {
