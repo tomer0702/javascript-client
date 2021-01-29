@@ -2,6 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as moment from 'moment';
+import {graphql} from '@apollo/client/react/hoc';
+import { flowRight as compose } from 'lodash';
 import { Button, withStyles } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -9,15 +11,17 @@ import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import callApi from '../../libs/utils/api';
 import { trainees } from './Data/trainee';
+import { getDateFormatted } from '../../libs/utils/getdateformat';
+import { STORED_USERS } from './query'; 
 
-const useStyles = (theme) => ({
-  root: {
-    margin: theme.spacing(2),
-  },
-  dialog: {
-    textAlign: 'right',
-  },
-});
+// const useStyles = (theme) => ({
+//   root: {
+//     margin: theme.spacing(2),
+//   },
+//   dialog: {
+//     textAlign: 'right',
+//   },
+// });
 
 class TraineeList extends React.Component {
   constructor(props) {
@@ -148,27 +152,29 @@ class TraineeList extends React.Component {
   };
 
   componentDidMount = () => {
-    this.setState({ loading: true });
+    this.setState({ loading: false });
     this. getTraineeData(); 
   }
    getTraineeData= async()=>{
     // eslint-disable-next-line consistent-return
-    callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
-      this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
+    // callApi({ }, 'get', `/trainee?skip=${0}&limit=${10}`).then((res) => {
+    //   this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
+    //   console.log('getresponse', res);
+    //   console.log('recordlength', res.data.data.records.length)
 
-      if (res.data.status !== 200) {
-        this.setState({
-          loading: false,
-          Count: 100,
+    //   if (res.data.status !== 200) {
+    //     this.setState({
+    //       loading: false,
+    //       Count: 100,
 
-        }, () => {
-          console.log('call Api');
-        });
-      } else {
-        this.setState({ dataObj: trainees, loading: false, Count: 100 });
-        return res;
-      }
-    });
+    //     }, () => {
+    //       console.log('call Api');
+    //     });
+    //   } else {
+    //     this.setState({ dataObj: trainees, loading: false, Count: 100 });
+    //     return res;
+    //   }
+    // });
   }
 
   render() {
@@ -178,10 +184,26 @@ class TraineeList extends React.Component {
       loading, dataObj, Count, deleteData,
     } = this.state;
     const { classes } = this.props;
+    const { setLoading } = this.props;
+
+      const {
+      data: {
+      getAllTrainees: { data = {}, TraineeCount = 0 } = {},
+      refetch,
+      },
+      } = this.props;
+      console.log('data',data);
+      // if (data) {
+      // setTimeout(() => {
+      // setLoading(false);
+      // }, 1000);
+      // } else {
+      // setLoading(true);
+      // }
     return (
       <>
-        <div className={classes.root}>
-          <div className={classes.dialog}>
+        <div className={classes}>
+          <div className={classes}>
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               ADD TRAINEELIST
             </Button>
@@ -210,7 +232,7 @@ class TraineeList extends React.Component {
           <TableComponent
             loader={loading}
             id="id"
-            data={dataObj}
+            data={data}
             column={
               [
                 {
@@ -226,7 +248,7 @@ class TraineeList extends React.Component {
                   field: 'createdAt',
                   label: 'Date',
                   align: 'right',
-                  format: this.getDateFormat,
+                  format: getDateFormatted,
                 },
               ]
             }
@@ -259,4 +281,8 @@ class TraineeList extends React.Component {
 TraineeList.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
-export default withStyles(useStyles)(TraineeList);
+// export default withStyles(useStyles)(TraineeList);
+export default compose( graphql(STORED_USERS,
+  {
+  options: { variables: { skip: '0', limit: '5', sort: 'name' } },
+  }))(TraineeList);
