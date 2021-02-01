@@ -8,7 +8,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import callApi from '../../libs/utils/api';
-import { trainees } from './Data/trainee';
+
+import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
   root: {
@@ -78,10 +79,9 @@ class TraineeList extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
-    this.componentDidMount(newPage);
-    this.setState({
-      page: newPage,
-    });
+    this.setState({ page: newPage }, () => {
+      this.getTraineeData();
+    })
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -152,22 +152,17 @@ class TraineeList extends React.Component {
     this. getTraineeData(); 
   }
    getTraineeData= async()=>{
-    // eslint-disable-next-line consistent-return
-    callApi({ }, 'get', `/trainee?skip=${0}&limit=${20}`).then((res) => {
-      this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
-
-      if (res.data.status !== 200) {
-        this.setState({
-          loading: false,
-          Count: 100,
-
-        }, () => {
-          console.log('call Api');
-        });
-      } else {
-        this.setState({ dataObj: trainees, loading: false, Count: 100 });
-        return res;
-      }
+     const { page, rowsPerPage } = this.state;
+     callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
+      if (res.status !== 200) {
+         this.setState({
+           loading: false,
+         }, () => {
+           console.log('call Api');
+         });
+       } else {
+         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count});
+       }
     });
   }
 
@@ -185,7 +180,13 @@ class TraineeList extends React.Component {
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               ADD TRAINEELIST
             </Button>
-            <AddDialog open={open} onClose={this.handleClose} onSubmit={() => this.handleSubmit} />
+            <AddDialog 
+            open={open} 
+            onClose={this.handleClose}
+            onSubmit={this.handleSubmit}
+            database={this.getTraineeData}
+            onclose={this.handleRemoveClose}
+           />
           </div>
           &nbsp;
           &nbsp;
@@ -226,7 +227,7 @@ class TraineeList extends React.Component {
                   field: 'createdAt',
                   label: 'Date',
                   align: 'right',
-                  format: this.getDateFormat,
+                  format: getDateFormatted,
                 },
               ]
             }

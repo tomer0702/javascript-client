@@ -19,7 +19,6 @@
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "graphql": "^15.5.0",
-    "local-storage": "^2.0.0",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
@@ -41,7 +40,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": " eslint --ext js,jsx /src",
+    "lint": " eslint --ext js,jsx ./src",
     "lint:fix": "npm run lint --fix",
     "test:c": "react-scripts test --coverage",
     "commit": "npx git-cz"

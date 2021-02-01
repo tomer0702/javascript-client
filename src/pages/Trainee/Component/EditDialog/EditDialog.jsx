@@ -45,6 +45,7 @@ class EditDialog extends Component {
         email: '',
       },
     };
+    this.baseState=this.state;
   }
 
   handleSet = () => {
@@ -108,17 +109,19 @@ class EditDialog extends Component {
     const dataToUpdate={ originalId, name ,email};
 
     const res = await callApi({dataToUpdate}, 'PUT', `/trainee`);
-    if (res !== 'undefined') {
+    console.log('in edit dialog', res, res.statusText);
+    if (res.statusText === 'OK') {
       this.setState({
         message: 'Trainee Updated Successfully ',
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'success');
         database();
+        this.setState(this.baseState);
       });
     } else {
       this.setState({
-        message: 'Error While Deleting',
+        message: 'Error While updating',
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'error');

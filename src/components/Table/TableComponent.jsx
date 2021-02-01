@@ -58,14 +58,11 @@ function TableComponent(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(rowsPerPage > 0
-            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : data
-          ).map((element) => (
+          {data.map((element) => (
             <TableRow
               key={element.id}
               className={classes.root}
-              onMouseEnter={onSelect(element)}
+              onMouseEnter={ () => onSelect(element)}
             >
               {column.map(({ field, align, format }) => (
                 <TableCell onClick={(event) => onSelect(event, element.name)} align={align} component="th" scope="row" order={order} orderBy={orderBy}>
@@ -97,10 +94,12 @@ function TableComponent(props) {
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
       />
+
       )
         :''
       } 
     
+
     </TableContainer>
   );
 }
@@ -124,3 +123,4 @@ TableComponent.defaultProps = {
   onSort: () => {},
 };
 export default withStyles(useStyles)(hoc(TableComponent));
+
