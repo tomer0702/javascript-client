@@ -157,7 +157,6 @@ class TraineeList extends React.Component {
       if (res.status !== 200) {
          this.setState({
            loading: false,
-           Count: res.data.data.count,
          }, () => {
            console.log('call Api');
          });
