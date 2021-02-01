@@ -188,11 +188,14 @@ class TraineeList extends React.Component {
 
       const {
       data: {
-      getAllTrainees: { data = {}, TraineeCount = 0 } = {},
+      getAllTrainees: {data={}}= {},
       refetch,
       },
       } = this.props;
-      console.log('data',data);
+      console.log('datatrainelist',data);
+      const records=data?data.records:[];
+      const count= data?data.count:0;
+
       // if (data) {
       // setTimeout(() => {
       // setLoading(false);
@@ -232,7 +235,7 @@ class TraineeList extends React.Component {
           <TableComponent
             loader={loading}
             id="id"
-            data={data}
+            data={records}
             column={
               [
                 {
@@ -267,7 +270,7 @@ class TraineeList extends React.Component {
             orderBy={orderBy}
             order={order}
             onSelect={this.handleSelect}
-            count={Count}
+            count={count}
             page={page}
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
