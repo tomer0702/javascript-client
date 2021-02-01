@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from 'react';
+import {React, Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Grid } from '@material-ui/core';
 import * as yup from 'yup';
@@ -12,8 +12,10 @@ import {
   DialogTitle,
   Button,
   InputAdornment,
+  CircularProgress,
 } from '@material-ui/core';
 import { Email, Person } from '@material-ui/icons';
+import callApi from '../../../../libs/utils/api';
 import { snackbarContext } from '../../../../contexts/index';
 
 const useStyles = () => ({
@@ -26,22 +28,24 @@ const useStyles = () => ({
   },
 });
 
-class EditDialog extends React.Component {
+class EditDialog extends Component {
   schema = yup.object().shape({
     name: yup.string().required('Name is required').min(3),
     email: yup.string().email().required('Email is required'),
-  });
+  })
 
   constructor(props) {
     super(props);
     this.state = {
       name: '',
       email: '',
+      loading: false,
       error: {
         name: '',
         email: '',
       },
     };
+    this.baseState=this.state;
   }
 
   handleSet = () => {
@@ -93,11 +97,45 @@ class EditDialog extends React.Component {
     return !!iserror.length;
   };
 
+  onClickHandler = async (openSnackBar, e) => {
+    // e.preventDefault();
+    this.setState({
+      loading: true,
+    });
+    const { name, email} = this.state;
+    const { loading } = this.state;
+    const { data, database,onClose } = this.props;
+    const{ originalId } = data;
+    const dataToUpdate={ originalId, name ,email};
+
+    const res = await callApi({dataToUpdate}, 'PUT', `/trainee`);
+    console.log('in edit dialog', res, res.statusText);
+    if (res.statusText === 'OK') {
+      this.setState({
+        message: 'Trainee Updated Successfully ',
+      }, () => {
+        const { message } = this.state;
+        openSnackBar(message, 'success');
+        database();
+        this.setState(this.baseState);
+      });
+    } else {
+      this.setState({
+        message: 'Error While updating',
+      }, () => {
+        const { message } = this.state;
+        openSnackBar(message, 'error');
+      });
+    }
+    onClose();
+  }
+
   render() {
     const {
       Editopen, handleEditClose, handleEdit, data, classes,
     } = this.props;
-    const { name, email, error } = this.state;
+    const{ originalId } = data;
+    const { name, email, error, loading } = this.state;
     return (
       <div>
         <Dialog
@@ -166,9 +204,9 @@ class EditDialog extends React.Component {
               Cancel
             </Button>
             <snackbarContext.Consumer>
-              {(value) => (
+              {(snackbar) => (
                 <Button
-                  onClick={() => handleEdit(name, email, value)}
+                  onClick={() => this.onClickHandler(snackbar, { name, email, originalId })}
                   className={
                     (name === data.name && email === data.email) || this.hasErrors()
                       ? classes.button_error
@@ -179,7 +217,11 @@ class EditDialog extends React.Component {
                     !!((name === data.name && email === data.email) || this.hasErrors())
                   }
                 >
-              Submit
+              {loading && (
+                    <CircularProgress size={15} />
+                  )}
+                  {loading && <span>Submitting</span>}
+                  {!loading && <span>Submit</span>}
                 </Button>
               )}
             </snackbarContext.Consumer>

@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as moment from 'moment';
@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import callApi from '../../libs/utils/api';
+
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 
 const useStyles = (theme) => ({
@@ -31,7 +32,7 @@ class TraineeList extends React.Component {
       editData: {},
       deleteData: {},
       page: 0,
-      rowsPerPage: 20,
+      rowsPerPage: 10,
       loading: false,
       Count: 0,
       dataObj: [],
@@ -60,8 +61,6 @@ class TraineeList extends React.Component {
     this.setState({
       open: false,
     }, () => {
-      // eslint-disable-next-line
-      console.log(data);
     });
     const message = 'This is Success Message';
     const status = 'success';
@@ -69,14 +68,10 @@ class TraineeList extends React.Component {
   }
 
   handleSelect = (event) => {
-    // eslint-disable-next-line
-    console.log(event);
   };
 
   handleSort = (field) => (event) => {
     const { order } = this.state;
-    // eslint-disable-next-line
-    console.log(event);
     this.setState({
       orderBy: field,
       order: order === 'asc' ? 'desc' : 'asc',
@@ -86,7 +81,7 @@ class TraineeList extends React.Component {
   handleChangePage = (event, newPage) => {
     this.setState({ page: newPage }, () => {
       this.getTraineeData();
-    });
+    })
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -99,6 +94,7 @@ class TraineeList extends React.Component {
 
   handleRemoveClose = () => {
     this.setState({
+      EditOpen: false,
       RemoveOpen: false,
     });
   };
@@ -109,7 +105,6 @@ class TraineeList extends React.Component {
       RemoveOpen: false,
     });
     // eslint-disable-next-line no-console
-    console.log('Deleted Item ', deleteData);
     const { createdAt } = deleteData;
     const isAfter = moment(createdAt).isSameOrAfter('2019-02-14T18:15:11.778Z');
     const message = isAfter
@@ -138,7 +133,6 @@ class TraineeList extends React.Component {
       EditOpen: false,
     });
     // eslint-disable-next-line no-console
-    console.log('Edited Item ', { name, email });
     const message = 'This is a success message';
     const status = 'success';
     value(message, status);
@@ -155,111 +149,113 @@ class TraineeList extends React.Component {
 
   componentDidMount = () => {
     this.setState({ loading: true });
-    this.getTraineeData();
+    this. getTraineeData(); 
   }
-
-   getTraineeData= async () => {
+   getTraineeData= async()=>{
      const { page, rowsPerPage } = this.state;
-     console.log('inside get function');
-     // eslint-disable-next-line consistent-return
      callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
-       // eslint-disable-next-line max-len
-       console.log('response', res);
-       console.log('responserecord', res.data.data.records);
-       console.log('responsecount', res.data.data.count);
-       if (res.status !== 200) {
+      if (res.status !== 200) {
          this.setState({
            loading: false,
-           Count: 0,
          }, () => {
            console.log('call Api');
          });
        } else {
-         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count });
+         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count});
        }
-     });
-   }
+    });
+  }
 
-   render() {
-     const {
-       open, order, orderBy, page,
-       rowsPerPage, EditOpen, RemoveOpen, editData,
-       loading, dataObj, Count,
-     } = this.state;
-     const { classes } = this.props;
-     return (
-       <>
-         <div className={classes.root}>
-           <div className={classes.dialog}>
-             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-               ADD TRAINEELIST
-             </Button>
-             <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} />
-           </div>
+  render() {
+    const {
+      open, order, orderBy, page,
+      rowsPerPage, EditOpen, RemoveOpen, editData,
+      loading, dataObj, Count, deleteData,
+    } = this.state;
+    const { classes } = this.props;
+    return (
+      <>
+        <div className={classes.root}>
+          <div className={classes.dialog}>
+            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+              ADD TRAINEELIST
+            </Button>
+            <AddDialog 
+            open={open} 
+            onClose={this.handleClose}
+            onSubmit={this.handleSubmit}
+            database={this.getTraineeData}
+            onclose={this.handleRemoveClose}
+           />
+          </div>
           &nbsp;
           &nbsp;
-           <EditDialog
-             Editopen={EditOpen}
-             handleEditClose={this.handleEditClose}
-             handleEdit={this.handleEdit}
-             data={editData}
-           />
-           <br />
-           <DeleteDialog
-             openRemove={RemoveOpen}
-             onClose={this.handleRemoveClose}
-             remove={this.handleRemove}
-           />
-           <br />
-           <br />
-           <TableComponent
-             loader={loading}
-             id="id"
-             data={dataObj}
-             column={
-               [
-                 {
-                   field: 'name',
-                   label: 'Name',
-                 },
-                 {
-                   field: 'email',
-                   label: 'Email Address',
-                   format: (value) => value && value.toUpperCase(),
-                 },
-                 {
-                   field: 'createdAt',
-                   label: 'Date',
-                   align: 'right',
-                   format: getDateFormatted,
-                 },
-               ]
-             }
-             actions={[
-               {
-                 icon: <EditIcon />,
-                 handler: this.handleEditDialogOpen,
+          <EditDialog
+            Editopen={EditOpen}
+            handleEditClose={this.handleEditClose}
+            handleEdit={this.handleEdit}
+            data={editData}
+            database={this. getTraineeData}
+            onClose={this.handleRemoveClose}
+          />
+          <br />
+          <DeleteDialog
+            openRemove={RemoveOpen}
+            onClose={this.handleRemoveClose}
+            remove={this.handleRemove}
+            rmdata={deleteData}
+            database={this. getTraineeData}
+          />
+          <br />
+          <br />
+          <TableComponent
+            loader={loading}
+            id="id"
+            data={dataObj}
+            column={
+              [
+                {
+                  field: 'name',
+                  label: 'Name',
+                },
+                {
+                  field: 'email',
+                  label: 'Email Address',
+                  format: (value) => value && value.toUpperCase(),
+                },
+                {
+                  field: 'createdAt',
+                  label: 'Date',
+                  align: 'right',
+                  format: getDateFormatted,
+                },
+              ]
+            }
+            actions={[
+              {
+                icon: <EditIcon />,
+                handler: this.handleEditDialogOpen,
 
-               },
-               {
-                 icon: <DeleteIcon />,
-                 handler: this.handleRemoveDialogOpen,
-               },
-             ]}
-             onSort={this.handleSort}
-             orderBy={orderBy}
-             order={order}
-             onSelect={this.handleSelect}
-             count={Count}
-             page={page}
-             onChangePage={this.handleChangePage}
-             onChangeRowsPerPage={this.handleChangeRowsPerPage}
-             rowsPerPage={rowsPerPage}
-           />
-         </div>
-       </>
-     );
-   }
+              },
+              {
+                icon: <DeleteIcon />,
+                handler: this.handleRemoveDialogOpen,
+              },
+            ]}
+            onSort={this.handleSort}
+            orderBy={orderBy}
+            order={order}
+            onSelect={this.handleSelect}
+            count={Count}
+            page={page}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            rowsPerPage={rowsPerPage}
+          />
+        </div>
+      </>
+    );
+  }
 }
 TraineeList.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,

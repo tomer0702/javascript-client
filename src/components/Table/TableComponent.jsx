@@ -32,6 +32,7 @@ function TableComponent(props) {
     rowsPerPage, onChangePage, onChangeRowsPerPage,
   } = props;
 
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table}>
@@ -93,15 +94,17 @@ function TableComponent(props) {
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
       />
-        )
+
+      )
         :''
       } 
+    
+
     </TableContainer>
   );
 }
 TableComponent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  classes: PropTypes.arrayOf(PropTypes.object).isRequired,
   column: PropTypes.arrayOf(PropTypes.object).isRequired,
   order: PropTypes.string,
   orderBy: PropTypes.string,
@@ -119,4 +122,5 @@ TableComponent.defaultProps = {
   orderBy: '',
   onSort: () => {},
 };
-export default withStyles(useStyles)(hoc(TableComponent))
+export default withStyles(useStyles)(hoc(TableComponent));
+
