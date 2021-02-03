@@ -35,7 +35,7 @@ class TraineeList extends React.Component {
       editData: {},
       deleteData: {},
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 5,
       loading: false,
       Count: 0,
       dataObj: [],
@@ -81,10 +81,13 @@ class TraineeList extends React.Component {
     });
   };
 
-  handleChangePage = (event, newPage) => {
-    this.componentDidMount(newPage);
+  handleChangePage =(refetch)=> (event, newPage) => {
+    const{ rowsPerPage}= this.state;
     this.setState({
       page: newPage,
+    }, () => {
+      refetch({skip: String(newPage*rowsPerPage) , limit: String(rowsPerPage)});
+
     });
   };
 
@@ -272,7 +275,7 @@ class TraineeList extends React.Component {
             onSelect={this.handleSelect}
             count={count}
             page={page}
-            onChangePage={this.handleChangePage}
+            onChangePage={this.handleChangePage(refetch)}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             rowsPerPage={rowsPerPage}
           />
