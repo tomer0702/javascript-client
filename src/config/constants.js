@@ -59,10 +59,10 @@ const schema = yup.object().shape({
     .required('Password is required')
     //.matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/, 'Must contain 8 characters, at least one uppercase letter, one lowercase letter and one number'),
 });
-
 export {
   radioOptionsCricket,
   radioOptionsFootball,
   selectOptions,
   schema,
+
 };

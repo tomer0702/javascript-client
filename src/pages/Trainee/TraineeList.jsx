@@ -14,6 +14,9 @@ import { trainees } from './Data/trainee';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 import { STORED_USERS } from './query'; 
 
+
+
+
 // const useStyles = (theme) => ({
 //   root: {
 //     margin: theme.spacing(2),
@@ -89,6 +92,7 @@ class TraineeList extends React.Component {
       refetch({skip: String(newPage*rowsPerPage) , limit: String(rowsPerPage)});
 
     });
+
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -178,6 +182,18 @@ class TraineeList extends React.Component {
     //     return res;
     //   }
     // });
+     const { page, rowsPerPage } = this.state;
+     callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
+      if (res.status !== 200) {
+         this.setState({
+           loading: false,
+         }, () => {
+           console.log('call Api');
+         });
+       } else {
+         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count});
+       }
+    });
   }
 
   render() {
@@ -213,7 +229,13 @@ class TraineeList extends React.Component {
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               ADD TRAINEELIST
             </Button>
-            <AddDialog open={open} onClose={this.handleClose} onSubmit={() => this.handleSubmit} />
+            <AddDialog 
+            open={open} 
+            onClose={this.handleClose}
+            onSubmit={this.handleSubmit}
+            database={this.getTraineeData}
+            onclose={this.handleRemoveClose}
+           />
           </div>
           &nbsp;
           &nbsp;
