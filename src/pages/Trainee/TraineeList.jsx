@@ -213,7 +213,9 @@ class TraineeList extends React.Component {
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               ADD TRAINEELIST
             </Button>
-            <AddDialog open={open} onClose={this.handleClose} onSubmit={() => this.handleSubmit} />
+            <AddDialog open={open} onClose={this.handleClose} 
+            refetchQuery={refetch}
+            onSubmit={() => this.handleSubmit} />
           </div>
           &nbsp;
           &nbsp;
@@ -222,7 +224,8 @@ class TraineeList extends React.Component {
             handleEditClose={this.handleEditClose}
             handleEdit={this.handleEdit}
             data={editData}
-            database={this. getTraineeData}
+            // database={this. getTraineeData}
+            refetchQuery={refetch}
             onClose={this.handleRemoveClose}
           />
           <br />
@@ -231,7 +234,8 @@ class TraineeList extends React.Component {
             onClose={this.handleRemoveClose}
             remove={this.handleRemove}
             rmdata={deleteData}
-            database={this. getTraineeData}
+            // database={this. getTraineeData}
+            refetchQuery={refetch}
           />
           <br />
           <br />

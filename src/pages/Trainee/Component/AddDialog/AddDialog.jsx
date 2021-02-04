@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -6,7 +7,7 @@ import {
 import { Email, Person, VisibilityOff } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import schema from './Schema';
-import callApi from '../../../../libs/utils/api';
+// import callApi from '../../../../libs/utils/api';
 import { snackbarContext } from '../../../../contexts/index';
 import Handler from './Handler';
 
@@ -55,15 +56,25 @@ class AddDialog extends React.Component {
       loading: true,
       hasError: true,
     });
-    const res = await callApi(data, 'post', '/trainee');
+    const { name, email, password } = this.state;
+    const { refetchQuery, createTrainee } = this.props;
+    const res = await createTrainee({
+      variables: {
+        name,
+        email,
+        password,
+      },
+    });
+    // const res = await callApi(data, 'post', '/trainee');
     this.setState({ loading: false });
-    if (res.statusText === 'OK') {
+    if (res) {
       this.setState({
         hasError: false,
         message: 'This is a success message',
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'success');
+        refetchQuery();
       });
     } else {
       this.setState({
@@ -200,4 +211,5 @@ AddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  refetchQuery: PropTypes.func.isRequired,
 };

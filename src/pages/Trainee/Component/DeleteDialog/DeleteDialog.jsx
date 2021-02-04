@@ -26,8 +26,16 @@ class DeleteDialog extends Component {
     this.setState({
       loading: true,
     });
-    const { rmdata, database, onClose } = this.props;
-    const res = await callApi(rmdata, 'delete', `/trainee/${rmdata.originalId}`);
+    const { id} = this.state;
+    const { rmdata, database, onClose, refetchQuery, deleteTrainee } = this.props;
+    console.log('deletedialog');
+    const res = await deleteTrainee({
+      variables: {
+        id
+      },
+    });
+    console.log('deleteuser',res);
+    // const res = await callApi(rmdata, 'delete', `/trainee/${rmdata.originalId}`);
     this.setState({ loading: false });
     if (res.statusText === 'OK') {
       this.setState({
@@ -35,7 +43,8 @@ class DeleteDialog extends Component {
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'success');
-        database();
+        // database();
+        refetchQuery();
         this.setState
       });
     } else {
