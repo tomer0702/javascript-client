@@ -9,22 +9,17 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
-import callApi from '../../libs/utils/api';
-import { trainees } from './Data/trainee';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 import { STORED_USERS } from './query'; 
 
-
-
-
-// const useStyles = (theme) => ({
-//   root: {
-//     margin: theme.spacing(2),
-//   },
-//   dialog: {
-//     textAlign: 'right',
-//   },
-// });
+const useStyles = (theme) => ({
+  root: {
+    margin: theme.spacing(2),
+  },
+  dialog: {
+    textAlign: 'right',
+  },
+});
 
 class TraineeList extends React.Component {
   constructor(props) {
@@ -55,12 +50,13 @@ class TraineeList extends React.Component {
     return open;
   };
 
-  handleChangeRowsPerPage = (event) => {
+  handleChangeRowsPerPage = (refetch)=>(event) => {
     this.setState({
       rowsPerPage: event.target.value,
-      page: 0,
-
-    });
+      page: 0,}, () => {
+        refetch({skip: String(newPage*rowsPerPage) , limit: String(rowsPerPage)});
+  
+      });
   };
 
   handleSubmit = (data, value) => {
@@ -92,7 +88,6 @@ class TraineeList extends React.Component {
       refetch({skip: String(newPage*rowsPerPage) , limit: String(rowsPerPage)});
 
     });
-
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -163,37 +158,6 @@ class TraineeList extends React.Component {
     this. getTraineeData(); 
   }
    getTraineeData= async()=>{
-    // eslint-disable-next-line consistent-return
-    // callApi({ }, 'get', `/trainee?skip=${0}&limit=${10}`).then((res) => {
-    //   this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
-    //   console.log('getresponse', res);
-    //   console.log('recordlength', res.data.data.records.length)
-
-    //   if (res.data.status !== 200) {
-    //     this.setState({
-    //       loading: false,
-    //       Count: 100,
-
-    //     }, () => {
-    //       console.log('call Api');
-    //     });
-    //   } else {
-    //     this.setState({ dataObj: trainees, loading: false, Count: 100 });
-    //     return res;
-    //   }
-    // });
-     const { page, rowsPerPage } = this.state;
-     callApi({ }, 'get', `/trainee?skip=${page * rowsPerPage}&limit=${rowsPerPage}`).then((res) => {
-      if (res.status !== 200) {
-         this.setState({
-           loading: false,
-         }, () => {
-           console.log('call Api');
-         });
-       } else {
-         this.setState({ dataObj: res.data.data.records, loading: false, Count: res.data.data.count});
-       }
-    });
   }
 
   render() {
@@ -214,14 +178,6 @@ class TraineeList extends React.Component {
       console.log('datatrainelist',data);
       const records=data?data.records:[];
       const count= data?data.count:0;
-
-      // if (data) {
-      // setTimeout(() => {
-      // setLoading(false);
-      // }, 1000);
-      // } else {
-      // setLoading(true);
-      // }
     return (
       <>
         <div className={classes}>
@@ -229,13 +185,7 @@ class TraineeList extends React.Component {
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               ADD TRAINEELIST
             </Button>
-            <AddDialog 
-            open={open} 
-            onClose={this.handleClose}
-            onSubmit={this.handleSubmit}
-            database={this.getTraineeData}
-            onclose={this.handleRemoveClose}
-           />
+            <AddDialog open={open} onClose={this.handleClose} onSubmit={() => this.handleSubmit} />
           </div>
           &nbsp;
           &nbsp;
@@ -298,7 +248,7 @@ class TraineeList extends React.Component {
             count={count}
             page={page}
             onChangePage={this.handleChangePage(refetch)}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage(refetch)}
             rowsPerPage={rowsPerPage}
           />
         </div>
@@ -309,8 +259,7 @@ class TraineeList extends React.Component {
 TraineeList.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
-// export default withStyles(useStyles)(TraineeList);
-export default compose( graphql(STORED_USERS,
+export default ( graphql(STORED_USERS,
   {
   options: { variables: { skip: '0', limit: '5', sort: 'name' } },
   }))(TraineeList);

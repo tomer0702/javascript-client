@@ -58,9 +58,7 @@ function TableComponent(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-<
-
-          {data.map((element) => (
+         {data.map((element) => (
 
             <TableRow
               key={element.id}
