@@ -137,7 +137,7 @@ class Login extends PureComponent {
                       required
                       id="outlined-required"
                       label="Email Address"
-                      defaultValue=" "
+                      defaultValue=""
                       variant="outlined"
                       fullWidth
                       onChange={this.handleChange('email')}
