@@ -98,7 +98,6 @@ class EditDialog extends Component {
   };
 
   onClickHandler = async (openSnackBar, e) => {
-    // e.preventDefault();
     this.setState({
       loading: true,
     });
@@ -114,15 +113,12 @@ class EditDialog extends Component {
         originalId
       },
     });
-
-    // const res = await callApi({dataToUpdate}, 'PUT', `/trainee`);
     if (res !== 'undefined') {
       this.setState({
         message: 'Trainee Updated Successfully ',
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'success');
-        // database();
         refetchQuery();
         this.setState(this.baseState);
       });

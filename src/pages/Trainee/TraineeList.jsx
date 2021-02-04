@@ -9,19 +9,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
-import callApi from '../../libs/utils/api';
-import { trainees } from './Data/trainee';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 import { STORED_USERS } from './query'; 
 
-// const useStyles = (theme) => ({
-//   root: {
-//     margin: theme.spacing(2),
-//   },
-//   dialog: {
-//     textAlign: 'right',
-//   },
-// });
 
 class TraineeList extends React.Component {
   constructor(props) {
@@ -106,19 +96,17 @@ class TraineeList extends React.Component {
     });
   };
 
-  handleRemove = (value) => {
-    const { deleteData } = this.state;
+  handleRemove = (data, refetch) => {
+    const { page } = this.state;
+    console.log('page', page);
     this.setState({
-      RemoveOpen: false,
+      RemoveOpen: false,},()=>{
+        if (data.length===1){
+          this.setState({page:page-1},()=> {
+            refetch({ skip:String((this.state.page-1)*rowsPerPage),limit:String(rowsPerPage),sort:this.state.orderBy});
+          });
+        }else refetch();
     });
-    // eslint-disable-next-line no-console
-    const { createdAt } = deleteData;
-    const isAfter = moment(createdAt).isSameOrAfter('2019-02-14T18:15:11.778Z');
-    const message = isAfter
-      ? 'This is a success message!'
-      : 'This is an error message!';
-    const status = isAfter ? 'success' : 'error';
-    value(message, status);
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -159,25 +147,6 @@ class TraineeList extends React.Component {
     this. getTraineeData(); 
   }
    getTraineeData= async()=>{
-    // eslint-disable-next-line consistent-return
-    // callApi({ }, 'get', `/trainee?skip=${0}&limit=${10}`).then((res) => {
-    //   this.setState({ dataObj: res.data.data.records, loading: false, Count: 100 });
-    //   console.log('getresponse', res);
-    //   console.log('recordlength', res.data.data.records.length)
-
-    //   if (res.data.status !== 200) {
-    //     this.setState({
-    //       loading: false,
-    //       Count: 100,
-
-    //     }, () => {
-    //       console.log('call Api');
-    //     });
-    //   } else {
-    //     this.setState({ dataObj: trainees, loading: false, Count: 100 });
-    //     return res;
-    //   }
-    // });
   }
 
   render() {
@@ -198,14 +167,6 @@ class TraineeList extends React.Component {
       console.log('datatrainelist',data);
       const records=data?data.records:[];
       const count= data?data.count:0;
-
-      // if (data) {
-      // setTimeout(() => {
-      // setLoading(false);
-      // }, 1000);
-      // } else {
-      // setLoading(true);
-      // }
     return (
       <>
         <div className={classes}>
@@ -224,7 +185,6 @@ class TraineeList extends React.Component {
             handleEditClose={this.handleEditClose}
             handleEdit={this.handleEdit}
             data={editData}
-            // database={this. getTraineeData}
             refetchQuery={refetch}
             onClose={this.handleRemoveClose}
           />
@@ -232,9 +192,8 @@ class TraineeList extends React.Component {
           <DeleteDialog
             openRemove={RemoveOpen}
             onClose={this.handleRemoveClose}
-            remove={this.handleRemove}
+            remove={()=>this.handleRemove(data, refetch)}
             rmdata={deleteData}
-            // database={this. getTraineeData}
             refetchQuery={refetch}
           />
           <br />
@@ -291,8 +250,7 @@ class TraineeList extends React.Component {
 TraineeList.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
-// export default withStyles(useStyles)(TraineeList);
-export default compose( graphql(STORED_USERS,
+export default ( graphql(STORED_USERS,
   {
   options: { variables: { skip: '0', limit: '5', sort: 'name' } },
   }))(TraineeList);

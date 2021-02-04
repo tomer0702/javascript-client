@@ -7,7 +7,6 @@ import {
 import { Email, Person, VisibilityOff } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import schema from './Schema';
-// import callApi from '../../../../libs/utils/api';
 import { snackbarContext } from '../../../../contexts/index';
 import Handler from './Handler';
 
@@ -57,7 +56,7 @@ class AddDialog extends React.Component {
       hasError: true,
     });
     const { name, email, password } = this.state;
-    const { refetchQuery, createTrainee } = this.props;
+    const { refetchQuery, createTrainee, onClose } = this.props;
     const res = await createTrainee({
       variables: {
         name,
@@ -65,7 +64,6 @@ class AddDialog extends React.Component {
         password,
       },
     });
-    // const res = await callApi(data, 'post', '/trainee');
     this.setState({ loading: false });
     if (res) {
       this.setState({
@@ -74,6 +72,7 @@ class AddDialog extends React.Component {
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'success');
+        onClose();
         refetchQuery();
       });
     } else {

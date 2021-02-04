@@ -26,18 +26,18 @@ class DeleteDialog extends Component {
     this.setState({
       loading: true,
     });
-    const { id} = this.state;
     const { rmdata, database, onClose, refetchQuery, deleteTrainee } = this.props;
-    console.log('deletedialog');
+    const { originalId } = rmdata;
+    console.log('deletedialog', rmdata);
     const res = await deleteTrainee({
       variables: {
-        id
+        id: originalId
       },
     });
     console.log('deleteuser',res);
     // const res = await callApi(rmdata, 'delete', `/trainee/${rmdata.originalId}`);
     this.setState({ loading: false });
-    if (res.statusText === 'OK') {
+    if (res) {
       this.setState({
         message: 'Deleted Successfully ',
       }, () => {
