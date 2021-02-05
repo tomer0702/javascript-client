@@ -1,16 +1,22 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable no-alert */
 import { InMemoryCache } from 'apollo-boost';
-import ApolloClient from 'apollo-client';
+import { ApolloClient } from '@apollo/client';
+import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
-import { setContext } from 'apollo-link-context';
+import { WebSocketLink } from 'apollo-link-ws';
+import { setContext } from '@apollo/client/link/context';
+import { getMainDefinition } from 'apollo-utilities';
 
-const link = new HttpLink({ uri: 'http://localhost:5000/graphql' });
+const httplink = new HttpLink({ uri: process.env.REACT_APP_APOLLO_GRAPHQL_URI });
+
+const wsLink = new WebSocketLink({
+  uri: process.env.REACT_APP_APOLLO_SUBSCRIPTION_GRAPHQL_URI,
+  otions: {
+    reconnect: true,
+  },
+});
 
 const authLink = setContext((_, { headers }) => {
-// get the authentication token if it's exists
   const token = localStorage.getItem('token');
-  // return the headers to the context so httplink can read them
   return {
     headers: {
       ...headers,
@@ -19,9 +25,21 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const apolloclient = new ApolloClient({
+const link = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition'
+      && definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httplink,
+);
+
+const Apolloclient = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(link),
 });
 
-export default apolloclient;
+export default Apolloclient;
