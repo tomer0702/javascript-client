@@ -12,14 +12,6 @@ import { TableComponent } from '../../components';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
 import { STORED_USERS } from './query'; 
 
-const useStyles = (theme) => ({
-  root: {
-    margin: theme.spacing(2),
-  },
-  dialog: {
-    textAlign: 'right',
-  },
-});
 
 class TraineeList extends React.Component {
   constructor(props) {
@@ -50,13 +42,12 @@ class TraineeList extends React.Component {
     return open;
   };
 
-  handleChangeRowsPerPage = (refetch)=>(event) => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({
       rowsPerPage: event.target.value,
-      page: 0,}, () => {
-        refetch({skip: String(newPage*rowsPerPage) , limit: String(rowsPerPage)});
-  
-      });
+      page: 0,
+
+    });
   };
 
   handleSubmit = (data, value) => {
@@ -105,19 +96,17 @@ class TraineeList extends React.Component {
     });
   };
 
-  handleRemove = (value) => {
-    const { deleteData } = this.state;
+  handleRemove = (data, refetch) => {
+    const { page } = this.state;
+    console.log('page', page);
     this.setState({
-      RemoveOpen: false,
+      RemoveOpen: false,},()=>{
+        if (data.length===1){
+          this.setState({page:page-1},()=> {
+            refetch({ skip:String((this.state.page-1)*rowsPerPage),limit:String(rowsPerPage),sort:this.state.orderBy});
+          });
+        }else refetch();
     });
-    // eslint-disable-next-line no-console
-    const { createdAt } = deleteData;
-    const isAfter = moment(createdAt).isSameOrAfter('2019-02-14T18:15:11.778Z');
-    const message = isAfter
-      ? 'This is a success message!'
-      : 'This is an error message!';
-    const status = isAfter ? 'success' : 'error';
-    value(message, status);
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -185,7 +174,9 @@ class TraineeList extends React.Component {
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               ADD TRAINEELIST
             </Button>
-            <AddDialog open={open} onClose={this.handleClose} onSubmit={() => this.handleSubmit} />
+            <AddDialog open={open} onClose={this.handleClose} 
+            refetchQuery={refetch}
+            onSubmit={() => this.handleSubmit} />
           </div>
           &nbsp;
           &nbsp;
@@ -194,16 +185,16 @@ class TraineeList extends React.Component {
             handleEditClose={this.handleEditClose}
             handleEdit={this.handleEdit}
             data={editData}
-            database={this. getTraineeData}
+            refetchQuery={refetch}
             onClose={this.handleRemoveClose}
           />
           <br />
           <DeleteDialog
             openRemove={RemoveOpen}
             onClose={this.handleRemoveClose}
-            remove={this.handleRemove}
+            remove={()=>this.handleRemove(data, refetch)}
             rmdata={deleteData}
-            database={this. getTraineeData}
+            refetchQuery={refetch}
           />
           <br />
           <br />
@@ -248,7 +239,7 @@ class TraineeList extends React.Component {
             count={count}
             page={page}
             onChangePage={this.handleChangePage(refetch)}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage(refetch)}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
             rowsPerPage={rowsPerPage}
           />
         </div>

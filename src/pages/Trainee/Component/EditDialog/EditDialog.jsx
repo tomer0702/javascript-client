@@ -45,7 +45,7 @@ class EditDialog extends Component {
         email: '',
       },
     };
-    this.baseState=this.state;
+    this.baseState= this.state;
   }
 
   handleSet = () => {
@@ -98,30 +98,33 @@ class EditDialog extends Component {
   };
 
   onClickHandler = async (openSnackBar, e) => {
-    // e.preventDefault();
     this.setState({
       loading: true,
     });
     const { name, email} = this.state;
     const { loading } = this.state;
-    const { data, database,onClose } = this.props;
+    const { data, database,onClose, updateTrainee, refetchQuery } = this.props;
     const{ originalId } = data;
     const dataToUpdate={ originalId, name ,email};
-
-    const res = await callApi({dataToUpdate}, 'PUT', `/trainee`);
-    console.log('in edit dialog', res, res.statusText);
-    if (res.statusText === 'OK') {
+    const res =await updateTrainee({
+      variables: {
+        name,
+        email,
+        originalId
+      },
+    });
+    if (res !== 'undefined') {
       this.setState({
         message: 'Trainee Updated Successfully ',
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'success');
-        database();
+        refetchQuery();
         this.setState(this.baseState);
       });
     } else {
       this.setState({
-        message: 'Error While updating',
+        message: 'Error While Deleting',
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'error');

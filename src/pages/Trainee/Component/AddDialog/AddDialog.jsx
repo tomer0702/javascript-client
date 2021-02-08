@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -6,7 +7,6 @@ import {
 import { Email, Person, VisibilityOff } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import schema from './Schema';
-import callApi from '../../../../libs/utils/api';
 import { snackbarContext } from '../../../../contexts/index';
 import Handler from './Handler';
 
@@ -55,17 +55,25 @@ class AddDialog extends React.Component {
       loading: true,
       hasError: true,
     });
-    const res = await callApi({ ...data, role: 'trainee' }, 'post', '/trainee');
+    const { name, email, password } = this.state;
+    const { refetchQuery, createTrainee, onClose } = this.props;
+    const res = await createTrainee({
+      variables: {
+        name,
+        email,
+        password,
+      },
+    });
     this.setState({ loading: false });
-    const { database } = this.props;
-    if (res.statusText === 'OK') {
+    if (res) {
       this.setState({
         hasError: false,
         message: 'This is a success message',
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'success');
-        database();
+        onClose();
+        refetchQuery();
       });
     } else {
       this.setState({
@@ -180,7 +188,6 @@ class AddDialog extends React.Component {
                         name, email, password,
                       }, value);
                       this.formReset();
-                      onClose();
                     }}
                   >
                     {loading && (
@@ -189,7 +196,6 @@ class AddDialog extends React.Component {
                     {loading && <span>Submitting</span>}
                     {!loading && <span>Submit</span>}
                   </Button>
-
                 )}
               </snackbarContext.Consumer>
             </div>
@@ -204,6 +210,5 @@ AddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  database: PropTypes.func.isRequired,
-
+  refetchQuery: PropTypes.func.isRequired,
 };
