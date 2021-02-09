@@ -10,7 +10,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { AddDialog, EditDialog, DeleteDialog } from './Component/index';
 import { TableComponent } from '../../components';
 import { getDateFormatted } from '../../libs/utils/getdateformat';
-import { STORED_USERS } from './query'; 
+import { STORED_USERS } from './query';
+import { UPDATED_TRAINEE_SUB, DELETED_TRAINEE_SUB, ADDED_TRAINEE_SUB } from './subscription'; 
 
 
 class TraineeList extends React.Component {
@@ -143,10 +144,60 @@ class TraineeList extends React.Component {
   };
 
   componentDidMount = () => {
-    this.setState({ loading: false });
-    this. getTraineeData(); 
+    // this.setState({ loading: false });
+    // this. getTraineeData(); 
+    const {
+      data: {
+        refetch,
+      },
+    } = this.props;
+    const { data: { subscribeToMore } } = this.props;
+    subscribeToMore({
+      document: UPDATED_TRAINEE_SUB,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        const { getAllTrainees: { data } } = prev;
+        const { data: { traineeUpdated } } = subscriptionData;
+        const updatedRecords = [...data].map((records) => {
+          if (records.originalId === traineeUpdated.originalId) {
+            return {
+              ...records,
+              ...traineeUpdated,
+            };
+          }
+          return records;
+        });
+        return {
+          getAllTrainees: {
+            ...prev.getAllTrainees,
+            data: updatedRecords,
+          },
+        };
+      },
+    });
+    subscribeToMore({
+      document: DELETED_TRAINEE_SUB,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        const { getAllTrainees: { data } } = prev;
+        if (data.length === 1) {
+          refetch({ skip: String((this.state.page - 1) * 5), limit: String(5), sort: this.state.orderBy });
+        } else {
+          refetch({ skip: String(this.state.page * 5), limit: String(5), sort: this.state.orderBy });
+        }
+        return 0;
+      },
+    });
+    subscribeToMore({
+      document: ADDED_TRAINEE_SUB,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        refetch({ skip: String(this.state.page * 5), limit: String(5), sort: this.state.orderBy });
+        return 0;
+      },
+    });
   }
-   getTraineeData= async()=>{
+  getTraineeData= async()=>{
   }
 
   render() {
