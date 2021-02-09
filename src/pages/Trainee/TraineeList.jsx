@@ -161,11 +161,11 @@ class TraineeList extends React.Component {
         const updatedRecords = [...data].map((records) => {
           if (records.originalId === traineeUpdated.originalId) {
             return {
-              ...data,
+              ...records,
               ...traineeUpdated,
             };
           }
-          return data;
+          return records;
         });
         return {
           getAllTrainees: {
